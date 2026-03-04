@@ -39,7 +39,7 @@ export function Header({ page, setPage, scrollToForm }: HeaderProps) {
   ];
 
   return (
-    <header style={{
+    <header className="hdr-outer" style={{
       position: 'sticky',
       top: 0,
       zIndex: 50,
@@ -192,9 +192,32 @@ export function Header({ page, setPage, scrollToForm }: HeaderProps) {
           WebkitBackdropFilter: 'blur(12px)',
           display: 'flex',
           flexDirection: 'column',
-          paddingTop: 88,
         }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, padding: '0 20px' }}>
+          {/* Drawer header with X */}
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            padding: '16px 20px',
+            height: 68,
+          }}>
+            <img src="/logo.png" alt="Edu-AI" style={{ height: 26, width: 'auto' }} />
+            <button
+              onClick={() => setOpen(false)}
+              style={{
+                width: 36, height: 36, borderRadius: '50%',
+                border: '1px solid rgba(255,255,255,0.12)',
+                background: 'rgba(255,255,255,0.06)',
+                cursor: 'pointer', color: '#fff',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 18, fontFamily: 'inherit',
+              }}
+              aria-label="Închide meniu"
+            >
+              ✕
+            </button>
+          </div>
+
+          {/* Nav links */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 2, padding: '8px 12px' }}>
             {navLinks.map((link) => (
               <button
                 key={link.label}
@@ -203,20 +226,19 @@ export function Header({ page, setPage, scrollToForm }: HeaderProps) {
                   padding: '14px 16px', borderRadius: 10,
                   fontSize: 17, fontWeight: 500,
                   textAlign: 'left', fontFamily: 'inherit',
-                  background: 'none',
-                  border: 'none',
-                  color: '#fff',
+                  background: 'none', border: 'none',
+                  color: 'rgba(255,255,255,0.8)',
                   cursor: 'pointer',
-                  borderLeft: '2px solid transparent',
                 }}
               >
                 {link.label}
               </button>
             ))}
           </div>
+
+          {/* CTA */}
           <div style={{
             marginTop: 'auto',
-            display: 'flex', flexDirection: 'column', gap: 10,
             padding: '0 20px 48px',
           }}>
             <button
@@ -240,6 +262,7 @@ export function Header({ page, setPage, scrollToForm }: HeaderProps) {
           .hdr-links { display: none !important; }
           .hdr-cta   { display: none !important; }
           .hdr-burger { display: flex !important; }
+          .hdr-outer { padding: 8px 12px !important; }
         }
       `}</style>
     </header>
