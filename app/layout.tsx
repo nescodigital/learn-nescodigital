@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Edu-AI — Cursuri AI practice pentru business-ul tău",
+  title: "Edu-AI: Cursuri AI practice pentru business-ul tău",
   description: "Cursuri video 100% în română despre AI, automatizări și marketing digital. Aplici din prima săptămână. Certificat la final.",
   openGraph: {
-    title: "Edu-AI — Cursuri AI practice pentru business",
+    title: "Edu-AI: Cursuri AI practice pentru business",
     description: "Cursuri video 100% în română despre AI, automatizări și marketing digital.",
     url: "https://edu-ai.ro",
     siteName: "Edu-AI",

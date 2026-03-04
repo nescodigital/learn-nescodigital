@@ -26,7 +26,7 @@ const AI_LOGOS = [
 
 const TESTIMONIALS_COLUMNS: Testimonial[] = [
   {
-    text: "Am automatizat complet prospectarea — 40 de lead-uri calificate pe săptămână fără să ating tastatura. ROI în prima lună.",
+    text: "Am automatizat complet prospectarea. 40 de lead-uri calificate pe săptămână fără să ating tastatura. ROI în prima lună.",
     image: "https://randomuser.me/api/portraits/men/32.jpg",
     name: "Mihai D.",
     role: "Fondator, Agenție Imobiliară",
@@ -164,7 +164,7 @@ const COURSES = [
     emoji: "📣",
     cat: "Marketing",
     title: "Marketing Digital cu AI",
-    desc: "Campanii mai bune în mai puțin timp. Copywriting, segmentare, A/B testing — totul cu AI.",
+    desc: "Campanii mai bune în mai puțin timp. Copywriting, segmentare, A/B testing, totul cu AI.",
     lessons: 22,
     duration: "5h 15m",
     level: "intermediate",
@@ -208,7 +208,7 @@ const COURSES = [
     emoji: "🤖",
     cat: "Automatizări",
     title: "Agenți AI pentru Business",
-    desc: "Creează agenți AI care lucrează autonom — cercetare, raportare, comunicare.",
+    desc: "Creează agenți AI care lucrează autonom: cercetare, raportare, comunicare.",
     lessons: 24,
     duration: "6h 00m",
     level: "advanced",
@@ -262,7 +262,7 @@ const BENTO_ITEMS: BentoItem[] = [
   {
     title: "Agenți AI pentru Business",
     meta: "24 lecții · 6h 00m",
-    description: "Creează agenți AI care lucrează autonom — cercetare, raportare, comunicare.",
+    description: "Creează agenți AI care lucrează autonom: cercetare, raportare, comunicare.",
     icon: <Bot style={{ width: 16, height: 16, color: "#a78bfa" }} />,
     status: "Avansat",
     tags: ["Automatizări", "Avansat"],
@@ -271,7 +271,7 @@ const BENTO_ITEMS: BentoItem[] = [
   {
     title: "Marketing Digital cu AI",
     meta: "22 lecții · 5h 15m",
-    description: "Campanii mai bune în mai puțin timp. Copywriting, segmentare, A/B testing — totul cu AI.",
+    description: "Campanii mai bune în mai puțin timp. Copywriting, segmentare, A/B testing, totul cu AI.",
     icon: <Megaphone style={{ width: 16, height: 16, color: "#a78bfa" }} />,
     tags: ["Marketing", "Intermediar"],
     cta: "Înscrie-te →",
@@ -324,7 +324,7 @@ const TESTIMONIALS = [
     init: "MD",
     name: "Mihai D.",
     role: "Fondator, Agenție Imobiliară",
-    text: "Am automatizat complet prospectarea — 40 de lead-uri calificate pe săptămână fără să ating tastatura. ROI în prima lună.",
+    text: "Am automatizat complet prospectarea. 40 de lead-uri calificate pe săptămână fără să ating tastatura. ROI în prima lună.",
   },
   {
     init: "AP",
@@ -511,7 +511,7 @@ function HomePage({
 
           <p className="hero-sub">
             Cursuri video 100% în română cu exemple din piața românească.
-            Automatizări, marketing, vânzări și AI — aplici din prima săptămână.
+            Automatizări, marketing, vânzări și AI. Aplici din prima săptămână.
             Certificat la final.
           </p>
 
@@ -535,7 +535,7 @@ function HomePage({
                   Ești pe listă!
                 </div>
                 <div style={{ fontSize: 15, color: "var(--muted)", lineHeight: 1.6 }}>
-                  Te anunțăm la lansare cu preț special — cu 40% reducere față de prețul public.
+                  Te anunțăm la lansare cu preț special, cu 40% reducere față de prețul public.
                 </div>
               </div>
             ) : (
@@ -645,9 +645,9 @@ function HomePage({
               { icon: "🇷🇴", title: "100% în română", desc: "Toate cursurile sunt filmate și explicate în română, cu exemple din piața locală." },
               { icon: "⚡", title: "Aplici imediat", desc: "Fiecare lecție are un exercițiu practic. Nu ieși cu teorie, ieși cu ceva construit." },
               { icon: "🏆", title: "Certificat recunoscut", desc: "Certificat digital la finalul fiecărui curs, pe care îl poți adăuga pe LinkedIn." },
-              { icon: "🔄", title: "Actualizat continuu", desc: "AI evoluează rapid. Actualizăm cursurile gratuit — plătești o dată, primești mereu ce e actual." },
+              { icon: "🔄", title: "Actualizat continuu", desc: "AI evoluează rapid. Actualizăm cursurile gratuit. Plătești o dată, primești mereu ce e actual." },
               { icon: "👥", title: "Comunitate activă", desc: "Forum privat cu studenți și instructori. Pui întrebări, primești răspunsuri reale." },
-              { icon: "📱", title: "Oricând, oriunde", desc: "Accesezi de pe orice dispozitiv. Lecții de 5-15 minute — înveți în pauza de cafea." },
+              { icon: "📱", title: "Oricând, oriunde", desc: "Accesezi de pe orice dispozitiv. Lecții de 5-15 minute. Înveți în pauza de cafea." },
             ].map((f) => (
               <div className="feature-card" key={f.title}>
                 <div className="feature-icon">{f.icon}</div>
@@ -944,7 +944,7 @@ function DashboardPage() {
             Bun venit înapoi, Alex! 👋
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.4)" }}>
-            Continuă de unde ai rămas — ai 2 cursuri active.
+            Continuă de unde ai rămas. Ai 2 cursuri active.
           </p>
         </div>
 
