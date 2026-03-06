@@ -114,7 +114,7 @@ const PRICING_PLANS = [
       "Tot ce include Starter",
       "Acces prioritar la cursuri noi",
       "Resurse descărcabile (templates, prompturi, checklist-uri)",
-      "Suport prioritar — răspuns în față față de Starter",
+      "Suport prioritar (răspuns mai rapid față de Starter)",
       "Certificat digital recunoscut (după min. 6 luni)",
     ],
     description: "Pentru cei care nu își permit să rămână în urmă. Certificat inclus.",
