@@ -99,11 +99,11 @@ export function PresaleModal({ email, isOpen, onClose }: PresaleModalProps) {
             </div>
             <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 8 }}>
               {[
-                "Acces la toate cursurile",
-                "Quiz dupa fiecare lectie",
-                "Actualizari de continut",
+                "Acces la toate cursurile disponibile",
+                "Quiz după fiecare lecție",
+                "Actualizări la cursurile existente",
                 "Suport email",
-                "Comunitate privata pre-lansare",
+                "Certificat digital (după min. 6 luni)",
               ].map(f => (
                 <li key={f} style={{ fontSize: 13, color: "#b0b0c8", display: "flex", gap: 8, alignItems: "flex-start" }}>
                   <span style={{ color: "#22c55e", flexShrink: 0, marginTop: 1 }}>✓</span>
@@ -146,11 +146,10 @@ export function PresaleModal({ email, isOpen, onClose }: PresaleModalProps) {
             <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 8 }}>
               {[
                 "Tot ce include Starter",
-                "Sesiuni live lunare Q&A",
-                "Certificat avansat",
-                "Proiecte practice cu feedback",
-                "Comunitate privata pre-lansare",
-                "Material video onboarding exclusiv",
+                "Cursuri noi cu 15 zile înainte față de Starter",
+                "Toate cursurile noi lansate cât timp ești abonat",
+                "Resurse descărcabile (templates, prompturi, checklist-uri)",
+                "Suport prioritar (răspuns mai rapid)",
               ].map(f => (
                 <li key={f} style={{ fontSize: 13, color: "#b0b0c8", display: "flex", gap: 8, alignItems: "flex-start" }}>
                   <span style={{ color: "#22c55e", flexShrink: 0, marginTop: 1 }}>✓</span>
