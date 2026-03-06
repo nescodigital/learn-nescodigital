@@ -515,6 +515,10 @@ function HomePage({
             Certificat la final.
           </p>
 
+          <p style={{ fontWeight: 700, fontSize: "1.05rem", marginTop: "0.75rem" }}>
+            Fiecare zi fără AI înseamnă bani lăsați pe masă.
+          </p>
+
           {/* FORM CARD */}
           <div
             ref={formRef}
@@ -535,7 +539,7 @@ function HomePage({
                   Ești pe listă!
                 </div>
                 <div style={{ fontSize: 15, color: "var(--muted)", lineHeight: 1.6 }}>
-                  Te anunțăm la lansare cu preț special, cu 40% reducere față de prețul public.
+                  Te anunțăm la lansare cu preț special pentru cei de pe waitlist.
                 </div>
               </div>
             ) : (
@@ -585,7 +589,7 @@ function HomePage({
                     disabled={status === "loading"}
                     style={{ width: "100%", marginTop: 4 }}
                   >
-                    {status === "loading" ? "Se înscrie..." : "Vreau acces anticipat →"}
+                    {status === "loading" ? "Se înscrie..." : "Rezervă-mi locul acum →"}
                   </button>
                 </div>
               </form>
@@ -596,7 +600,7 @@ function HomePage({
               flexWrap: "wrap", marginTop: 20, paddingTop: 20,
               borderTop: "1px solid var(--border)",
             }}>
-              {["✓ 100% în română", "✓ Certificat la final", "✓ Preț lansare -40%"].map((t) => (
+              {["✓ 100% în română", "✓ Certificat la final", "✓ Preț special waitlist"].map((t) => (
                 <span key={t} style={{ fontSize: 13, color: "var(--muted2)", fontWeight: 500 }}>{t}</span>
               ))}
             </div>
@@ -620,7 +624,7 @@ function HomePage({
             { value: "8+", label: "Cursuri la lansare" },
             { value: "100%", label: "Conținut în română" },
             { value: "500+", label: "Studenți în waitlist" },
-            { value: "-40%", label: "Preț de lansare" },
+            { value: "✓", label: "Preț special waitlist" },
           ].map((s) => (
             <div key={s.label}>
               <div style={{ fontSize: 36, fontWeight: 900, letterSpacing: -1, background: "linear-gradient(135deg, #fff 30%, var(--accent2))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
@@ -750,7 +754,7 @@ function HomePage({
           <div className="section-eyebrow" style={{ display: "block", marginBottom: 12 }}>Gata să începi?</div>
           <h2 className="section-title" style={{ marginBottom: 12 }}>Fii printre primii 500.</h2>
           <p className="section-sub" style={{ margin: "0 auto 36px" }}>
-            Primii 500 de înscriși primesc preț de lansare cu 40% reducere față de prețul public.
+            Primii 500 de înscriși primesc preț special de lansare, disponibil exclusiv pe waitlist.
           </p>
           <button className="btn-primary-lg" onClick={scrollToForm}>
             Vreau acces anticipat →
