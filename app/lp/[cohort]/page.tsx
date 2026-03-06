@@ -105,7 +105,7 @@ const COHORT_DATA = {
   },
   manager: {
     badge: "Pentru manageri și directori",
-    headline: "Echipa ta rămâne în urmă.",
+    headline: "Echipa rămâne în urmă.",
     headlineSub: "Acum e momentul.",
     knife: "Dacă echipa ta nu știe AI, tu nu ai câștigat nimic.",
     subheadline: "Training structurat în română, cu certificat per angajat și raport de progres inclus.",
@@ -270,7 +270,7 @@ function LpPageInner() {
             <span>{data.badge}</span>
           </div>
 
-          <h1 className="hero-h1" style={{ fontSize: "clamp(32px, 4.5vw, 56px)", maxWidth: 640, margin: "0 auto 20px" }}>
+          <h1 className="hero-h1" style={{ fontSize: "clamp(28px, 3.8vw, 48px)", maxWidth: 560, margin: "0 auto 20px" }}>
             <span className="grad">{data.headline}</span>
             <br />{data.headlineSub}
           </h1>
