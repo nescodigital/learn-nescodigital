@@ -70,7 +70,7 @@ const COHORT_DATA = {
     headline: "AI-ul nu îți ia jobul.",
     headlineSub: "Îl ia cel care știe să-l folosească.",
     knife: "Colegul tău mai tânăr știe deja. Tu mai ai timp — dar nu mult.",
-    subheadline: "Cursuri video 100% în română, cu exemple din piața românească. Automatizări, marketing, vânzări și AI. Aplici din prima săptămână. Certificat la final.",
+    subheadline: "Cursuri video în română, cu exemple din piața românească. Automatizări, vânzări și AI. Aplici din prima săptămână.",
     painPoints: [
       { icon: "😰", title: "Simți că rămâi în urmă?", text: "Colegii tăi finalizează în 2 ore ce tu faci în 8. Nu e că muncesc mai mult — folosesc AI." },
       { icon: "💼", title: "Jobul tău nu mai e sigur ca înainte.", text: "La următoarea restructurare, primii care pleacă sunt cei fără competențe noi. AI literacy nu mai e opțional." },
@@ -86,10 +86,10 @@ const COHORT_DATA = {
   },
   antreprenor: {
     badge: "Pentru antreprenori și freelanceri",
-    headline: "Businessul tău pierde bani",
-    headlineSub: "Fiecare zi fără AI costă.",
+    headline: "Fără AI, pierzi bani.",
+    headlineSub: "Fiecare zi costă.",
     knife: "Concurenții tăi automatizează deja. Tu încă faci manual ce ei fac în 10 minute.",
-    subheadline: "Cursuri video 100% în română, cu exemple reale din piața românească. Automatizări, marketing, vânzări și AI. ROI vizibil din prima lună.",
+    subheadline: "Cursuri în română cu exemple reale. Automatizări, marketing, vânzări și AI. ROI vizibil din prima lună.",
     painPoints: [
       { icon: "💸", title: "Plătești salarii pentru muncă repetitivă.", text: "Email-uri, rapoarte, follow-up-uri — toate se automatizează. Tu plătești oameni pentru taskuri pe care AI-ul le face instant." },
       { icon: "🕐", title: "Timpul tău e cel mai scump activ.", text: "Ca antreprenor, pierzi ore pe taskuri administrative în loc să crești businessul. Asta trebuie să se schimbe." },
@@ -105,10 +105,10 @@ const COHORT_DATA = {
   },
   manager: {
     badge: "Pentru manageri și directori",
-    headline: "Echipa ta va fi depășită",
-    headlineSub: "dacă nu acționezi acum.",
+    headline: "Echipa ta rămâne în urmă.",
+    headlineSub: "Acționează acum.",
     knife: "Nu e suficient să știi tu AI. Dacă echipa ta nu știe, nu ai câștigat nimic.",
-    subheadline: "Training structurat, cu certificat pentru fiecare angajat. Raport de progres inclus. 100% în română, aplicabil din prima săptămână.",
+    subheadline: "Training structurat în română, cu certificat per angajat și raport de progres inclus.",
     painPoints: [
       { icon: "👥", title: "Angajații rezistă la schimbare.", text: "Fără training structurat, AI-ul rămâne un buzzword în echipa ta. Oamenii nu adoptă ce nu înțeleg." },
       { icon: "📋", title: "Nu ai un program clar de upskilling.", text: "Fiecare face ce vrea, nimeni nu are o direcție clară. Rezultatul: timp pierdut și frustrare." },
@@ -270,7 +270,7 @@ export default function LpPage() {
             <span>{data.badge}</span>
           </div>
 
-          <h1 className="hero-h1" style={{ fontSize: "clamp(36px, 5.5vw, 66px)", maxWidth: 720, margin: "0 auto 20px" }}>
+          <h1 className="hero-h1" style={{ fontSize: "clamp(32px, 4.5vw, 56px)", maxWidth: 640, margin: "0 auto 20px" }}>
             <span className="grad">{data.headline}</span>
             <br />{data.headlineSub}
           </h1>
