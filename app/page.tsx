@@ -529,7 +529,7 @@ function HomePage({
             Certificat la final.
           </p>
 
-          <p style={{ fontWeight: 700, fontSize: "clamp(15px, 1.8vw, 18px)", color: "#fff", marginBottom: "1.5rem" }}>
+          <p style={{ fontWeight: 800, fontSize: "clamp(17px, 1.5vw, 20px)", color: "#fff", marginBottom: "1.75rem", letterSpacing: "-0.2px" }}>
             Fiecare zi fără AI înseamnă bani lăsați pe masă.
           </p>
 
