@@ -314,13 +314,15 @@ function LpPageInner() {
 
       {/* MID CTA */}
       <div style={{ background: "var(--bg2)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)", padding: "48px 32px", textAlign: "center" }}>
-        <p style={{ fontSize: "clamp(18px, 2.5vw, 24px)", fontWeight: 700, color: "#fff", marginBottom: 24, maxWidth: 600, margin: "0 auto 24px" }}>{data.midCta}</p>
-        <div style={{ maxWidth: 460, margin: "0 auto" }}>
-          <WaitlistForm sursa={`${sursa}-mid`} label="Vreau acces anticipat →" onSuccess={setModalEmail} />
-        </div>
+        <p style={{ fontSize: "clamp(18px, 2.5vw, 24px)", fontWeight: 700, color: "#fff", maxWidth: 600, margin: "0 auto 24px" }}>{data.midCta}</p>
+        <button className="btn-primary-lg" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+          Vreau acces anticipat →
+        </button>
+        <div style={{ marginTop: 16, fontSize: 13, color: "var(--muted)" }}>Fără card de credit. Anulezi oricând.</div>
       </div>
 
       {/* LOGO CLOUD */}
+      <div style={{ height: 15, background: "var(--bg)" }} />
       <div style={{ background: "var(--bg)" }}>
         <LogoCloud logos={AI_LOGOS} title="Instrumente urmărite și testate de noi." subtitle="Cele mai relevante pentru business-ul tău." style={{ margin: "0 auto" }} />
       </div>
@@ -374,9 +376,9 @@ function LpPageInner() {
           <div className="section-eyebrow" style={{ display: "block", marginBottom: 12 }}>Gata să începi?</div>
           <h2 className="section-title" style={{ marginBottom: 12 }}>Fii printre primii 500.</h2>
           <p className="section-sub" style={{ margin: "0 auto 36px" }}>Primii 500 de înscriși primesc preț special de lansare, disponibil exclusiv pe waitlist.</p>
-          <div style={{ maxWidth: 460, margin: "0 auto" }}>
-            <WaitlistForm sursa={`${sursa}-bottom`} label="Vreau acces anticipat →" onSuccess={setModalEmail} />
-          </div>
+          <button className="btn-primary-lg" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+            Vreau acces anticipat →
+          </button>
           <div style={{ marginTop: 16, fontSize: 13, color: "var(--muted)" }}>Fără card de credit. Anulezi oricând.</div>
         </div>
       </div>
