@@ -100,7 +100,7 @@ const PRICING_PLANS = [
       "Certificat digital (după min. 6 luni consecutive)",
     ],
     description: "Tot ce ai nevoie ca să nu rămâi în urmă.",
-    buttonText: "Rezervă-mi locul →",
+    buttonText: "Începe cu Starter →",
     href: "#waitlist",
     isPopular: false,
     isBusiness: false,
