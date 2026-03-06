@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Suspense } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
@@ -238,7 +238,7 @@ function FixedBottomCta({ sursa }: { sursa: string }) {
 
 // ─── PAGE ─────────────────────────────────────────────────────────────────────
 
-export default function LpPage() {
+function LpPageInner() {
   const params = useParams();
   const searchParams = useSearchParams();
   const cohort = (params?.cohort as string)?.toLowerCase() as CohortKey;
@@ -393,5 +393,13 @@ export default function LpPage() {
       />
 
     </div>
+  );
+}
+
+export default function LpPage() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: "100vh", background: "var(--bg)" }} />}>
+      <LpPageInner />
+    </Suspense>
   );
 }
