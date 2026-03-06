@@ -9,6 +9,7 @@ import { LogoCloud } from "@/components/ui/logo-cloud";
 import { Pricing } from "@/components/blocks/pricing";
 import { BentoGrid, type BentoItem } from "@/components/ui/bento-grid";
 import { Rocket, Megaphone, Zap, MessageSquare, BarChart2, Bot, TrendingUp, Users } from "lucide-react";
+import { SegmentationModal } from "@/components/ui/segmentation-modal";
 
 // ─── LOGOS ────────────────────────────────────────────────────────────────────
 
@@ -127,7 +128,7 @@ type CohortKey = keyof typeof COHORT_DATA;
 
 // ─── WAITLIST FORM ────────────────────────────────────────────────────────────
 
-function WaitlistForm({ sursa, label = "Rezervă-mi locul acum →" }: { sursa: string; label?: string }) {
+function WaitlistForm({ sursa, label = "Rezervă-mi locul acum →", onSuccess }: { sursa: string; label?: string; onSuccess?: (email: string) => void }) {
   const [form, setForm] = useState({ nume: "", email: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -141,6 +142,7 @@ function WaitlistForm({ sursa, label = "Rezervă-mi locul acum →" }: { sursa: 
       const data = await res.json();
       if (!res.ok) { setErrorMsg(data.error ?? "A apărut o eroare."); setStatus("error"); return; }
       setStatus("success");
+      onSuccess?.(form.email);
     } catch { setErrorMsg("A apărut o eroare. Încearcă din nou."); setStatus("error"); }
   }
 
@@ -243,6 +245,7 @@ export default function LpPage() {
   const data = COHORT_DATA[cohort] ?? COHORT_DATA.angajat;
   const sursa = searchParams?.get("src") ?? `lp-${cohort}`;
   const plans = data.planKeys.map(k => ALL_PLANS[k]);
+  const [modalEmail, setModalEmail] = useState<string | null>(null);
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", color: "var(--text)", fontFamily: "Inter, -apple-system, sans-serif", paddingBottom: 80 }}>
@@ -281,7 +284,7 @@ export default function LpPage() {
 
           {/* FORM CARD */}
           <div style={{ background: "var(--bg2)", border: "1px solid var(--border2)", borderRadius: 16, padding: "32px", maxWidth: 520, width: "100%", margin: "0 auto" }}>
-            <WaitlistForm sursa={sursa} />
+            <WaitlistForm sursa={sursa} onSuccess={setModalEmail} />
             <div style={{ display: "flex", gap: 20, justifyContent: "center", flexWrap: "wrap", marginTop: 20, paddingTop: 20, borderTop: "1px solid var(--border)" }}>
               {["✓ 100% în română", "✓ Certificat la final", "✓ Preț special waitlist"].map(t => (
                 <span key={t} style={{ fontSize: 13, color: "var(--muted2)", fontWeight: 500 }}>{t}</span>
@@ -315,7 +318,7 @@ export default function LpPage() {
       <div style={{ background: "var(--bg2)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)", padding: "48px 32px", textAlign: "center" }}>
         <p style={{ fontSize: "clamp(18px, 2.5vw, 24px)", fontWeight: 700, color: "#fff", marginBottom: 24, maxWidth: 600, margin: "0 auto 24px" }}>{data.midCta}</p>
         <div style={{ maxWidth: 460, margin: "0 auto" }}>
-          <WaitlistForm sursa={`${sursa}-mid`} label="Vreau acces anticipat →" />
+          <WaitlistForm sursa={`${sursa}-mid`} label="Vreau acces anticipat →" onSuccess={setModalEmail} />
         </div>
       </div>
 
@@ -374,7 +377,7 @@ export default function LpPage() {
           <h2 className="section-title" style={{ marginBottom: 12 }}>Fii printre primii 500.</h2>
           <p className="section-sub" style={{ margin: "0 auto 36px" }}>Primii 500 de înscriși primesc preț special de lansare, disponibil exclusiv pe waitlist.</p>
           <div style={{ maxWidth: 460, margin: "0 auto" }}>
-            <WaitlistForm sursa={`${sursa}-bottom`} label="Vreau acces anticipat →" />
+            <WaitlistForm sursa={`${sursa}-bottom`} label="Vreau acces anticipat →" onSuccess={setModalEmail} />
           </div>
           <div style={{ marginTop: 16, fontSize: 13, color: "var(--muted)" }}>Fără card de credit. Anulezi oricând.</div>
         </div>
@@ -382,6 +385,12 @@ export default function LpPage() {
 
       {/* FIXED BOTTOM CTA — doar pe mobile */}
       <FixedBottomCta sursa={sursa} />
+
+      <SegmentationModal
+        email={modalEmail ?? ""}
+        isOpen={!!modalEmail}
+        onClose={() => setModalEmail(null)}
+      />
 
     </div>
   );

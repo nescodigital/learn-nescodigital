@@ -10,6 +10,7 @@ import { LogoCloud } from "@/components/ui/logo-cloud";
 import { BentoGrid, type BentoItem } from "@/components/ui/bento-grid";
 import { motion } from "framer-motion";
 import { Rocket, Megaphone, Zap, MessageSquare, BarChart2, Bot, TrendingUp, Users } from "lucide-react";
+import { SegmentationModal } from "@/components/ui/segmentation-modal";
 
 // Only wordmark SVGs (verified) — no icon-only logos
 const AI_LOGOS = [
@@ -441,6 +442,7 @@ function HomePage({
   const [form, setForm] = useState({ nume: "", email: "", interes: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [modalEmail, setModalEmail] = useState<string | null>(null);
   const searchParams = useSearchParams();
   const sursa = searchParams?.get("src") ?? "direct";
 
@@ -462,6 +464,7 @@ function HomePage({
         return;
       }
       setStatus("success");
+      setModalEmail(form.email);
     } catch {
       setErrorMsg("A apărut o eroare. Încearcă din nou.");
       setStatus("error");
@@ -775,6 +778,12 @@ function HomePage({
           </div>
         </div>
       </div>
+
+      <SegmentationModal
+        email={modalEmail ?? ""}
+        isOpen={!!modalEmail}
+        onClose={() => setModalEmail(null)}
+      />
     </>
   );
 }
