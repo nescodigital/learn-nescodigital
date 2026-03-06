@@ -42,7 +42,9 @@ export function Pricing({
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const switchRef = useRef<HTMLButtonElement>(null);
 
-  const totalPrice = licenses * PRICE_PER_LICENSE;
+  const totalPrice = isMonthly
+    ? licenses * PRICE_PER_LICENSE
+    : Math.round(licenses * PRICE_PER_LICENSE * 2 * 0.8); // 12 luni = 2× 6 luni, −20%
 
   const handleToggle = () => {
     const next = !isMonthly;
@@ -238,8 +240,12 @@ export function Pricing({
                   />
                   <span style={{ fontSize: 16, fontWeight: 500, color: "#8888a8" }}>RON</span>
                 </div>
-                <div style={{ fontSize: 13, color: "#8888a8", marginBottom: 4 }}>/ 6 luni · {licenses} licențe</div>
-                <div style={{ fontSize: 12, color: "#6c63ff", marginBottom: 20 }}>{PRICE_PER_LICENSE} RON / licență</div>
+                <div style={{ fontSize: 13, color: "#8888a8", marginBottom: 4 }}>
+                  / {isMonthly ? "6 luni" : "12 luni"} · {licenses} licențe
+                </div>
+                <div style={{ fontSize: 12, color: "#6c63ff", marginBottom: 20 }}>
+                  {isMonthly ? PRICE_PER_LICENSE : Math.round(PRICE_PER_LICENSE * 2 * 0.8)} RON / licență{!isMonthly && " · economisești 20%"}
+                </div>
               </>
             ) : (
               <>
@@ -286,7 +292,7 @@ export function Pricing({
             {/* CTA Button */}
             <Link
               href={plan.isBusiness
-                ? `mailto:hello@nescodigital.ro?subject=Oferta Business EduAI - ${licenses} licențe&body=Bună ziua, sunt interesat de pachetul Business pentru ${licenses} licențe (${totalPrice} RON / 6 luni).`
+                ? `mailto:hello@nescodigital.ro?subject=Oferta%20Business%20EduAI%20-%20${licenses}%20licente&body=Buna%20ziua%2C%20sunt%20interesat%20de%20pachetul%20Business%20pentru%20${licenses}%20licente%20(${totalPrice}%20RON%20%2F%20${isMonthly ? "6%20luni" : "12%20luni"}).`
                 : plan.href}
               style={{
                 display: "flex",

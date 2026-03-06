@@ -111,11 +111,11 @@ const PRICING_PLANS = [
     features: [
       "Tot ce include Starter",
       "Acces prioritar la cursuri noi",
-      "Exerciții practice + proiecte reale",
-      "Resurse descărcabile (templates, prompturi)",
-      "Certificat digital (după min. 6 luni)",
+      "Resurse descărcabile (templates, prompturi, checklist-uri)",
+      "Suport prioritar — răspuns în față față de Starter",
+      "Certificat digital recunoscut (după min. 6 luni)",
     ],
-    description: "Pentru cei care vor să meargă mai departe și să certifice progresul.",
+    description: "Pentru cei care nu își permit să rămână în urmă. Certificat inclus.",
     buttonText: "Alege Pro",
     href: "#waitlist",
     isPopular: true,
@@ -512,13 +512,13 @@ function HomePage({
           </div>
 
           <h1 className="hero-h1">
-            <span className="grad">Cursuri AI practice</span>
+            <span className="grad">AI-ul nu îți ia jobul.</span>
             <br />
-            pentru business-ul tău
+            Îl ia cel care știe să-l folosească.
           </h1>
 
           <p className="hero-sub">
-            Cursuri video 100% în română cu exemple din piața românească.
+            Cursuri video 100% în română, cu exemple din piața românească.
             Automatizări, marketing, vânzări și AI. Aplici din prima săptămână.
             Certificat la final.
           </p>
