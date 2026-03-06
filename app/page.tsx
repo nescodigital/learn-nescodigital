@@ -86,6 +86,8 @@ const PRICING_PLANS = [
     name: "LUNAR",
     price: "297",
     yearlyPrice: "238",
+    originalPrice: "495",
+    originalYearlyPrice: "397",
     period: "lună",
     features: [
       "Acces la toate cursurile",
@@ -103,6 +105,8 @@ const PRICING_PLANS = [
     name: "ANUAL",
     price: "197",
     yearlyPrice: "157",
+    originalPrice: "329",
+    originalYearlyPrice: "262",
     period: "lună · facturat anual",
     features: [
       "Tot ce include Lunar",
@@ -120,6 +124,8 @@ const PRICING_PLANS = [
     name: "LIFETIME",
     price: "1490",
     yearlyPrice: "1490",
+    originalPrice: "2490",
+    originalYearlyPrice: "2490",
     period: "o singură dată",
     features: [
       "Tot ce include Anual",
