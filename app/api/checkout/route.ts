@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
           plan,
         },
       },
-      success_url: `${baseUrl}/success?plan=${plan}&session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${baseUrl}/success?plan=${plan}&session_id={CHECKOUT_SESSION_ID}&email=${encodeURIComponent(email ?? "")}`,
       cancel_url: `${baseUrl}/`,
       locale: "ro",
       custom_text: {

@@ -292,7 +292,7 @@ function LpPageInner() {
             <p style={{ fontWeight: 700, fontSize: 15, color: "#fff", marginBottom: 16, lineHeight: 1.5 }}>
               {data.knife}
             </p>
-            <WaitlistForm sursa={sursa} onSuccess={setModalEmail} />
+            <WaitlistForm sursa={sursa} onSuccess={setPresaleEmail} />
             <div style={{ display: "flex", gap: 20, justifyContent: "center", flexWrap: "wrap", marginTop: 20, paddingTop: 20, borderTop: "1px solid var(--border)" }}>
               {["✓ 100% în română", "✓ Certificat la final", "✓ Preț special waitlist"].map(t => (
                 <span key={t} style={{ fontSize: 13, color: "var(--muted2)", fontWeight: 500 }}>{t}</span>
@@ -399,18 +399,17 @@ function LpPageInner() {
       </footer>
 
       {/* FIXED BOTTOM CTA — doar pe mobile */}
-      <FixedBottomCta sursa={sursa} onSuccess={setModalEmail} />
+      <FixedBottomCta sursa={sursa} onSuccess={setPresaleEmail} />
 
+      <PresaleModal
+        email={presaleEmail ?? ""}
+        isOpen={!!presaleEmail}
+        onClose={() => { setModalEmail(presaleEmail); setPresaleEmail(null); }}
+      />
       <SegmentationModal
         email={modalEmail ?? ""}
         isOpen={!!modalEmail}
         onClose={() => setModalEmail(null)}
-        onComplete={() => { setPresaleEmail(modalEmail); setModalEmail(null); }}
-      />
-      <PresaleModal
-        email={presaleEmail ?? ""}
-        isOpen={!!presaleEmail}
-        onClose={() => setPresaleEmail(null)}
       />
 
     </div>

@@ -466,7 +466,7 @@ function HomePage({
         return;
       }
       setStatus("success");
-      setModalEmail(form.email);
+      setPresaleEmail(form.email);
     } catch {
       setErrorMsg("A apărut o eroare. Încearcă din nou.");
       setStatus("error");
@@ -790,16 +790,15 @@ function HomePage({
         </div>
       </div>
 
+      <PresaleModal
+        email={presaleEmail ?? ""}
+        isOpen={!!presaleEmail}
+        onClose={() => { setModalEmail(presaleEmail); setPresaleEmail(null); }}
+      />
       <SegmentationModal
         email={modalEmail ?? ""}
         isOpen={!!modalEmail}
         onClose={() => setModalEmail(null)}
-        onComplete={() => { setPresaleEmail(modalEmail); setModalEmail(null); }}
-      />
-      <PresaleModal
-        email={presaleEmail ?? ""}
-        isOpen={!!presaleEmail}
-        onClose={() => setPresaleEmail(null)}
       />
     </>
   );
