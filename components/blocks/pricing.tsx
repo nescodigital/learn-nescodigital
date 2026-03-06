@@ -30,14 +30,19 @@ interface PricingProps {
   description?: string;
 }
 
+const PRICE_PER_LICENSE = 997; // RON / licență / 6 luni
+
 export function Pricing({
   plans,
   title = "Simple, Transparent Pricing",
   description = "Choose the plan that works for you",
 }: PricingProps) {
   const [isMonthly, setIsMonthly] = useState(true);
+  const [licenses, setLicenses] = useState(3);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const switchRef = useRef<HTMLButtonElement>(null);
+
+  const totalPrice = licenses * PRICE_PER_LICENSE;
 
   const handleToggle = () => {
     const next = !isMonthly;
@@ -208,12 +213,33 @@ export function Pricing({
             {/* Price */}
             {plan.isBusiness ? (
               <>
+                {/* Selector licențe */}
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+                  <span style={{ fontSize: 13, color: "#8888a8" }}>Licențe:</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: 0, border: "1px solid #2a2a3e", borderRadius: 8, overflow: "hidden" }}>
+                    <button
+                      onClick={() => setLicenses(l => Math.max(3, l - 1))}
+                      style={{ width: 36, height: 36, background: "none", border: "none", color: licenses === 3 ? "#444" : "#a78bfa", fontSize: 18, cursor: licenses === 3 ? "not-allowed" : "pointer", fontFamily: "inherit" }}
+                    >−</button>
+                    <span style={{ minWidth: 28, textAlign: "center", fontSize: 15, fontWeight: 700, color: "#fff" }}>{licenses}</span>
+                    <button
+                      onClick={() => setLicenses(l => Math.min(50, l + 1))}
+                      style={{ width: 36, height: 36, background: "none", border: "none", color: "#a78bfa", fontSize: 18, cursor: "pointer", fontFamily: "inherit" }}
+                    >+</button>
+                  </div>
+                </div>
+                {/* Preț calculat */}
                 <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 4 }}>
-                  <span style={{ fontSize: 14, fontWeight: 500, color: "#8888a8" }}>de la</span>
-                  <span style={{ fontSize: 48, fontWeight: 900, letterSpacing: "-2px", color: "#fff" }}>2.990</span>
+                  <NumberFlow
+                    value={totalPrice}
+                    transformTiming={{ duration: 350, easing: "ease-out" }}
+                    willChange
+                    style={{ fontSize: 48, fontWeight: 900, letterSpacing: "-2px", color: "#fff" }}
+                  />
                   <span style={{ fontSize: 16, fontWeight: 500, color: "#8888a8" }}>RON</span>
                 </div>
-                <div style={{ fontSize: 13, color: "#8888a8", marginBottom: 20 }}>/ 6 luni · minim 3 licențe</div>
+                <div style={{ fontSize: 13, color: "#8888a8", marginBottom: 4 }}>/ 6 luni · {licenses} licențe</div>
+                <div style={{ fontSize: 12, color: "#6c63ff", marginBottom: 20 }}>{PRICE_PER_LICENSE} RON / licență</div>
               </>
             ) : (
               <>
@@ -259,7 +285,9 @@ export function Pricing({
 
             {/* CTA Button */}
             <Link
-              href={plan.href}
+              href={plan.isBusiness
+                ? `mailto:hello@nescodigital.ro?subject=Oferta Business EduAI - ${licenses} licențe&body=Bună ziua, sunt interesat de pachetul Business pentru ${licenses} licențe (${totalPrice} RON / 6 luni).`
+                : plan.href}
               style={{
                 display: "flex",
                 alignItems: "center",
