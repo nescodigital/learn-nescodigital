@@ -352,57 +352,6 @@ const TESTIMONIALS = [
   },
 ];
 
-const PLANS = [
-  {
-    name: "Lunar",
-    price: "297",
-    period: "/ lună",
-    desc: "Acces complet la toate cursurile. Anulezi oricând.",
-    feats: [
-      "Acces la toate cursurile",
-      "Quiz după fiecare lecție",
-      "Certificat digital la final",
-      "Actualizări de conținut incluse",
-      "Suport email",
-    ],
-    btn: "Începe acum",
-    btnClass: "plan-btn plan-btn-outline",
-    featured: false,
-  },
-  {
-    name: "Anual",
-    price: "197",
-    period: "/ lună · facturat anual",
-    desc: "Economisești 1.200 RON față de abonamentul lunar.",
-    feats: [
-      "Tot ce include Lunar",
-      "Acces prioritar la cursuri noi",
-      "Comunitate privată members-only",
-      "Exerciții practice + proiecte reale",
-      "Resurse descărcabile (templates, prompturi)",
-    ],
-    btn: "Cel mai ales plan",
-    btnClass: "plan-btn plan-btn-accent",
-    featured: true,
-    label: "Cel mai ales",
-  },
-  {
-    name: "Lifetime",
-    price: "1.490",
-    period: "o singură dată",
-    desc: "Plătești o dată, ai acces pentru totdeauna.",
-    feats: [
-      "Tot ce include Anual",
-      "Acces pe viață la toate cursurile",
-      "Toate cursurile viitoare incluse",
-      "Pachet de prompturi premium (200+)",
-      "Badge exclusiv în comunitate",
-    ],
-    btn: "Vreau Lifetime",
-    btnClass: "plan-btn plan-btn-outline",
-    featured: false,
-  },
-];
 
 const CATEGORIES = ["Toate", "Antreprenoriat", "Marketing", "Automatizări", "Content", "Vânzări", "Finanțe", "HR"];
 
