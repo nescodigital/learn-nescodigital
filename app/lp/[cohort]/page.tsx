@@ -1,115 +1,148 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useParams, useSearchParams } from "next/navigation";
+import { motion } from "framer-motion";
+import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
+import { TestimonialsColumn, type Testimonial } from "@/components/ui/testimonials-columns-1";
+import { LogoCloud } from "@/components/ui/logo-cloud";
+import { Pricing } from "@/components/blocks/pricing";
 
-// ─── CONȚINUT PER COHORTĂ ───────────────────────────────────────────────────
+// ─── LOGOS (identice cu pagina principală) ────────────────────────────────────
+
+const AI_LOGOS = [
+  { src: "https://svgl.app/library/openai_wordmark_light.svg", alt: "OpenAI" },
+  { src: "https://svgl.app/library/claude-ai-wordmark-icon_light.svg", alt: "Claude" },
+  { src: "https://svgl.app/library/gemini_wordmark.svg", alt: "Gemini" },
+  { src: "https://svgl.app/library/perplexity_wordmark_light.svg", alt: "Perplexity" },
+  { src: "https://svgl.app/library/grok-wordmark-light.svg", alt: "Grok" },
+  { src: "https://svgl.app/library/n8n-wordmark-light.svg", alt: "n8n" },
+  { src: "https://svgl.app/library/supabase_wordmark_light.svg", alt: "Supabase" },
+  { src: "https://unpkg.com/@lobehub/icons-static-svg@latest/icons/meta-text.svg", alt: "Llama" },
+  { src: "https://svgl.app/library/microsoft-copilot.svg", alt: "Copilot" },
+  { src: "https://unpkg.com/@lobehub/icons-static-svg@latest/icons/midjourney-text.svg", alt: "Midjourney" },
+];
+
+// ─── TESTIMONIALE (identice cu pagina principală) ─────────────────────────────
+
+const TESTIMONIALS: Testimonial[] = [
+  { text: "Am automatizat complet prospectarea. 40 de lead-uri calificate pe săptămână fără să ating tastatura. ROI în prima lună.", image: "https://randomuser.me/api/portraits/men/32.jpg", name: "Mihai D.", role: "Fondator, Agenție Imobiliară" },
+  { text: "Cursul de n8n mi-a eliminat 15 ore de muncă manuală pe săptămână. Cel mai practic lucru din ultimul an.", image: "https://randomuser.me/api/portraits/women/44.jpg", name: "Ana P.", role: "Marketing Manager" },
+  { text: "Fără background tehnic am implementat automatizări care m-au ajutat să compet cu firme mult mai mari.", image: "https://randomuser.me/api/portraits/men/36.jpg", name: "Radu T.", role: "CEO, E-commerce" },
+  { text: "Cursurile sunt extrem de practice. Am aplicat primele automatizări chiar în timpul modulului 2.", image: "https://randomuser.me/api/portraits/women/68.jpg", name: "Ioana M.", role: "Antreprenor" },
+  { text: "Content-ul AI generat cu metodele din curs a triplat engagement-ul pe LinkedIn în 3 săptămâni.", image: "https://randomuser.me/api/portraits/men/76.jpg", name: "Andrei S.", role: "Consultant B2B" },
+  { text: "Am construit un agent AI care trimite rapoarte săptămânale automat. Echipa mea e șocată.", image: "https://randomuser.me/api/portraits/women/12.jpg", name: "Cristina B.", role: "Operations Director" },
+  { text: "Recomand oricui vrea să rămână relevant în domeniu. AI-ul nu îți ia locul, dar cel care știe AI da.", image: "https://randomuser.me/api/portraits/men/88.jpg", name: "Dan F.", role: "Sales Manager" },
+  { text: "Modulul de email marketing cu AI mi-a crescut rata de deschidere cu 34%. Rezultate reale.", image: "https://randomuser.me/api/portraits/women/23.jpg", name: "Laura V.", role: "E-commerce Owner" },
+  { text: "Platforma e bine structurată și explicațiile sunt clare. Exact ce lipsea pe piața românească.", image: "https://randomuser.me/api/portraits/men/61.jpg", name: "Bogdan C.", role: "Product Manager" },
+];
+
+// ─── PLANURI ──────────────────────────────────────────────────────────────────
+
+const ALL_PLANS = {
+  starter: {
+    name: "STARTER",
+    price: "197",
+    yearlyPrice: "157",
+    originalPrice: "329",
+    originalYearlyPrice: "262",
+    period: "lună",
+    features: ["Acces la toate cursurile", "Quiz după fiecare lecție", "Actualizări de conținut incluse", "Suport email"],
+    description: "Tot ce ai nevoie ca să nu rămâi în urmă.",
+    buttonText: "Rezervă-mi locul →",
+    href: "#waitlist",
+    isPopular: false,
+    isBusiness: false,
+  },
+  pro: {
+    name: "PRO",
+    price: "297",
+    yearlyPrice: "238",
+    originalPrice: "495",
+    originalYearlyPrice: "397",
+    period: "lună",
+    features: ["Tot ce include Starter", "Acces prioritar la cursuri noi", "Resurse descărcabile (templates, prompturi, checklist-uri)", "Suport prioritar — răspuns în față față de Starter", "Certificat digital recunoscut (după min. 6 luni)"],
+    description: "Pentru cei care nu își permit să rămână în urmă. Certificat inclus.",
+    buttonText: "Vreau Pro →",
+    href: "#waitlist",
+    isPopular: true,
+    isBusiness: false,
+  },
+  business: {
+    name: "BUSINESS",
+    price: "2990",
+    yearlyPrice: "2990",
+    originalPrice: "",
+    originalYearlyPrice: "",
+    period: "6 luni · minim 3 licențe",
+    features: ["Tot ce include Pro pentru fiecare licență", "Minim 3 licențe per echipă", "Certificat digital pentru toți membrii", "Raport progres per angajat", "Onboarding dedicat"],
+    description: "Pregătește-ți întreaga echipă. Prețul include minim 3 licențe Pro.",
+    buttonText: "Solicită ofertă",
+    href: "mailto:hello@nescodigital.ro?subject=Oferta%20Business%20EduAI",
+    isPopular: false,
+    isBusiness: true,
+  },
+};
+
+// ─── CONȚINUT PER COHORTĂ ─────────────────────────────────────────────────────
 
 const COHORT_DATA = {
   angajat: {
     badge: "Pentru angajați și profesioniști",
-    headline: "Colegul tău mai tânăr știe deja să folosească AI. Tu?",
-    subheadline: "Nu e vina ta că nu ai învățat până acum. Dar de mâine nu mai ai scuze.",
+    headline: "AI-ul nu îți ia jobul.",
+    headlineSub: "Îl ia cel care știe să-l folosească.",
+    subheadline: "Colegul tău mai tânăr știe deja. Managerul tău se uită la cifre. Mai ai timp să înveți — dar nu mult.",
     painPoints: [
-      { icon: "⏳", text: "Simți că faci în 8 ore ce alții fac în 2 cu ajutorul AI-ului?" },
-      { icon: "😟", text: "Ți-e teamă că la următoarea rundă de concedieri vei fi printre primii?" },
-      { icon: "📉", text: "CV-ul tău arată la fel ca acum 5 ani, fără nicio competență nouă?" },
+      { icon: "😰", title: "Simți că rămâi în urmă?", text: "Colegii tăi finalizează în 2 ore ce tu faci în 8. Nu e că muncesc mai mult — folosesc AI." },
+      { icon: "💼", title: "Jobul tău nu mai e sigur ca înainte.", text: "La următoarea restructurare, primii care pleacă sunt cei care nu aduc valoare nouă. Competențele AI nu mai sunt opționale." },
+      { icon: "⏳", title: "Știi că trebuie să înveți, dar tot amâni.", text: "Fiecare săptămână pierdută e o săptămână în care alții avansează. Nu e nevoie să fii expert — e nevoie să începi." },
     ],
-    ctaHeadline: "Înscrie-te acum și fii pregătit când contează",
-    ctaSubtext: "Preț special pentru cei de pe waitlist. Locuri limitate.",
-    planName: "STARTER",
-    planPrice: "197",
-    planPriceOriginal: "329",
-    planPriceYearly: "157",
-    planPriceYearlyOriginal: "262",
-    planFeatures: [
-      "Acces la toate cursurile",
-      "Quiz după fiecare lecție",
-      "Actualizări de conținut incluse",
-      "Suport email",
-    ],
-    planDesc: "Tot ce ai nevoie ca să nu rămâi în urmă.",
-    planBtn: "Rezervă-mi locul →",
-    testimonial: {
-      text: "Am terminat primul modul în 3 zile. Șeful meu m-a întrebat cum am automatizat raportul săptămânal. I-am spus că am învățat online.",
-      name: "Mihai D.",
-      role: "Contabil, 38 ani",
-    },
-    trustBadges: ["✓ 100% în română", "✓ Aplici din prima săptămână", "✓ Preț special waitlist"],
+    ctaHeadline: "Simplu și transparent",
+    ctaDesc: "Fără surprize. Preț special de lansare, disponibil doar pe waitlist.",
+    planKeys: ["starter", "pro"] as const,
+    testimonialsTitle: "Ce spun cei care nu au mai așteptat",
+    testimonialsDesc: "Angajați și profesioniști din România care au ales să nu rămână în urmă.",
   },
   antreprenor: {
     badge: "Pentru antreprenori și freelanceri",
-    headline: "Businessul tău pierde bani în fiecare zi fără AI.",
+    headline: "Businessul tău pierde bani",
+    headlineSub: "în fiecare zi fără AI.",
     subheadline: "Concurenții tăi automatizează deja. Tu încă faci manual ce ei fac în 10 minute.",
     painPoints: [
-      { icon: "💸", text: "Plătești oameni să facă muncă repetitivă pe care AI-ul o face instant?" },
-      { icon: "🕐", text: "Pierzi ore în șir pe taskuri administrative în loc să crești businessul?" },
-      { icon: "📊", text: "Campaniile tale de marketing merg pe burtă pentru că nu știi să folosești AI?" },
+      { icon: "💸", title: "Plătești oameni pentru muncă repetitivă.", text: "Email-uri, rapoarte, follow-up-uri — toate se pot automatiza. Tu plătești salarii pentru taskuri pe care AI-ul le face instant." },
+      { icon: "🕐", title: "Timpul tău valorează cel mai mult.", text: "Ca antreprenor, pierzi ore pe taskuri administrative în loc să crești businessul. AI rezolvă asta." },
+      { icon: "🏃", title: "Concurența se mișcă mai repede ca tine.", text: "Firmele care adoptă AI acum vor domina piața în 2 ani. Cele care nu adoptă vor lupta pentru supraviețuire." },
     ],
-    ctaHeadline: "Automatizează. Crește. Câștigă mai mult.",
-    ctaSubtext: "Preț de lansare -40%. Disponibil doar pentru cei de pe waitlist.",
-    planName: "PRO",
-    planPrice: "297",
-    planPriceOriginal: "495",
-    planPriceYearly: "238",
-    planPriceYearlyOriginal: "397",
-    planFeatures: [
-      "Tot ce include Starter",
-      "Acces prioritar la cursuri noi",
-      "Resurse descărcabile (templates, prompturi, checklist-uri)",
-      "Suport prioritar — răspuns în față față de Starter",
-      "Certificat digital recunoscut (după min. 6 luni)",
-    ],
-    planDesc: "Pentru antreprenorii care nu își permit să rămână în urmă.",
-    planBtn: "Vreau să cresc cu AI →",
-    testimonial: {
-      text: "Am automatizat complet prospectarea. 40 de lead-uri calificate pe săptămână fără să ating tastatura. ROI în prima lună.",
-      name: "Alexandru M.",
-      role: "Fondator agenție, 34 ani",
-    },
-    trustBadges: ["✓ ROI din prima lună", "✓ Templates gata de folosit", "✓ Preț lansare -40%"],
+    ctaHeadline: "Simplu și transparent",
+    ctaDesc: "Fără surprize. Preț special de lansare, disponibil doar pe waitlist.",
+    planKeys: ["starter", "pro", "business"] as const,
+    testimonialsTitle: "Ce spun antreprenorii care au aplicat",
+    testimonialsDesc: "Fondatori și freelanceri din România care și-au automatizat businessul.",
   },
   manager: {
-    badge: "Pentru manageri și directori HR",
-    headline: "Echipa ta va fi depășită în 12 luni dacă nu acționezi acum.",
+    badge: "Pentru manageri și directori",
+    headline: "Echipa ta va fi depășită",
+    headlineSub: "dacă nu acționezi acum.",
     subheadline: "Nu e suficient să știi tu AI. Dacă echipa ta nu știe, productivitatea nu crește.",
     painPoints: [
-      { icon: "👥", text: "Angajații tăi rezistă la schimbare și evită să folosească AI în munca de zi cu zi?" },
-      { icon: "📋", text: "Nu ai un program structurat de upskilling și fiecare face ce vrea?" },
-      { icon: "🏆", text: "Competitorii recrutează oameni cu competențe AI și tu nu poți ține pasul?" },
+      { icon: "👥", title: "Angajații rezistă la schimbare.", text: "Știi că AI-ul poate transforma modul în care lucrează echipa ta, dar oamenii evită să-l adopte fără training structurat." },
+      { icon: "📋", title: "Nu ai un program clar de upskilling.", text: "Fiecare face ce vrea, nimeni nu are o direcție clară. Rezultatul: haos și timp pierdut." },
+      { icon: "📄", title: "Nu poți demonstra ROI-ul trainingului.", text: "Fără certificate și rapoarte de progres, investiția în training e greu de justificat. Noi rezolvăm asta." },
     ],
-    ctaHeadline: "Pregătește-ți echipa. Certificat inclus pentru toți.",
-    ctaSubtext: "Minim 3 licențe. Onboarding dedicat. Raport progres per angajat.",
-    planName: "BUSINESS",
-    planPrice: null,
-    planPriceOriginal: null,
-    planPriceYearly: null,
-    planPriceYearlyOriginal: null,
-    planFeatures: [
-      "Tot ce include Pro pentru fiecare licență",
-      "Minim 3 licențe per echipă",
-      "Certificat digital pentru toți membrii",
-      "Raport progres per angajat",
-      "Onboarding dedicat",
-    ],
-    planDesc: "Pregătește-ți întreaga echipă. Prețul include minim 3 licențe Pro.",
-    planBtn: "Solicită ofertă →",
-    testimonial: {
-      text: "Am instruit 8 colegi în 6 săptămâni. Toți au certificat. Productivitatea echipei a crescut vizibil în prima lună.",
-      name: "Ioana P.",
-      role: "HR Manager, companie 50 angajați",
-    },
-    trustBadges: ["✓ Certificat pentru toți", "✓ Raport progres", "✓ Onboarding dedicat"],
+    ctaHeadline: "Simplu și transparent",
+    ctaDesc: "Certificat pentru toți membrii echipei. Raport progres per angajat.",
+    planKeys: ["pro", "business"] as const,
+    testimonialsTitle: "Ce spun managerii care au instruit echipele",
+    testimonialsDesc: "Directori și HR manageri din România care au pregătit echipe întregi.",
   },
-} as const;
+};
 
 type CohortKey = keyof typeof COHORT_DATA;
 
-// ─── WAITLIST FORM ──────────────────────────────────────────────────────────
+// ─── WAITLIST FORM ────────────────────────────────────────────────────────────
 
-function WaitlistForm({ sursa, isBusiness }: { sursa: string; isBusiness: boolean }) {
-  const [form, setForm] = useState({ nume: "", email: "", interes: "" });
-  const [licenses, setLicenses] = useState(3);
+function WaitlistForm({ sursa }: { sursa: string }) {
+  const [form, setForm] = useState({ nume: "", email: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -117,7 +150,6 @@ function WaitlistForm({ sursa, isBusiness }: { sursa: string; isBusiness: boolea
     e.preventDefault();
     if (!form.email) return;
     setStatus("loading");
-    setErrorMsg("");
     try {
       const res = await fetch("/api/waitlist", {
         method: "POST",
@@ -125,11 +157,7 @@ function WaitlistForm({ sursa, isBusiness }: { sursa: string; isBusiness: boolea
         body: JSON.stringify({ ...form, sursa }),
       });
       const data = await res.json();
-      if (!res.ok) {
-        setErrorMsg(data.error ?? "A apărut o eroare. Încearcă din nou.");
-        setStatus("error");
-        return;
-      }
+      if (!res.ok) { setErrorMsg(data.error ?? "A apărut o eroare."); setStatus("error"); return; }
       setStatus("success");
     } catch {
       setErrorMsg("A apărut o eroare. Încearcă din nou.");
@@ -137,82 +165,23 @@ function WaitlistForm({ sursa, isBusiness }: { sursa: string; isBusiness: boolea
     }
   }
 
-  if (status === "success") {
-    return (
-      <div style={{ textAlign: "center", padding: "32px 0" }}>
-        <div style={{ fontSize: 48, marginBottom: 16 }}>🎉</div>
-        <div style={{ fontSize: 20, fontWeight: 700, color: "#fff", marginBottom: 8 }}>Ești pe listă!</div>
-        <div style={{ fontSize: 15, color: "#8888a8", lineHeight: 1.6 }}>
-          Te anunțăm la lansare cu preț special pentru cei de pe waitlist.
-        </div>
-      </div>
-    );
-  }
-
-  if (isBusiness) {
-    const pricePerLicense = 997;
-    const total = licenses * pricePerLicense;
-    const mailSubject = encodeURIComponent(`Oferta Business EduAI - ${licenses} licente`);
-    const mailBody = encodeURIComponent(`Buna ziua, sunt interesat de pachetul Business pentru ${licenses} licente (${total} RON / 6 luni).`);
-
-    return (
-      <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-        {/* Selector licențe */}
-        <div>
-          <div style={{ fontSize: 13, color: "#8888a8", marginBottom: 10 }}>Număr de licențe (minim 3):</div>
-          <div style={{ display: "flex", alignItems: "center", gap: 0, border: "1px solid #2a2a3e", borderRadius: 10, overflow: "hidden", width: "fit-content" }}>
-            <button onClick={() => setLicenses(l => Math.max(3, l - 1))}
-              style={{ width: 44, height: 44, background: "none", border: "none", color: licenses === 3 ? "#444" : "#a78bfa", fontSize: 20, cursor: licenses === 3 ? "not-allowed" : "pointer", fontFamily: "inherit" }}>−</button>
-            <span style={{ minWidth: 40, textAlign: "center", fontSize: 16, fontWeight: 700, color: "#fff" }}>{licenses}</span>
-            <button onClick={() => setLicenses(l => Math.min(50, l + 1))}
-              style={{ width: 44, height: 44, background: "none", border: "none", color: "#a78bfa", fontSize: 20, cursor: "pointer", fontFamily: "inherit" }}>+</button>
-          </div>
-        </div>
-        <div>
-          <span style={{ fontSize: 40, fontWeight: 900, letterSpacing: "-2px", color: "#fff" }}>{total.toLocaleString("ro-RO")} RON</span>
-          <span style={{ fontSize: 14, color: "#8888a8", marginLeft: 8 }}>/ 6 luni · {licenses} licențe</span>
-          <div style={{ fontSize: 13, color: "#6c63ff", marginTop: 4 }}>{pricePerLicense} RON / licență</div>
-        </div>
-        <a href={`mailto:hello@nescodigital.ro?subject=${mailSubject}&body=${mailBody}`}
-          style={{
-            display: "flex", alignItems: "center", justifyContent: "center",
-            padding: "14px 24px", borderRadius: 10, fontSize: 16, fontWeight: 700,
-            background: "linear-gradient(135deg, #6c63ff, #a78bfa)",
-            color: "#fff", textDecoration: "none",
-            boxShadow: "0 8px 24px rgba(108,99,255,0.3)",
-          }}>
-          Solicită ofertă →
-        </a>
-      </div>
-    );
-  }
+  if (status === "success") return (
+    <div style={{ textAlign: "center", padding: "16px 0" }}>
+      <div style={{ fontSize: 40, marginBottom: 12 }}>🎉</div>
+      <div style={{ fontSize: 18, fontWeight: 700, color: "var(--text)", marginBottom: 8 }}>Ești pe listă!</div>
+      <div style={{ fontSize: 15, color: "var(--muted)", lineHeight: 1.6 }}>Te anunțăm la lansare cu preț special pentru cei de pe waitlist.</div>
+    </div>
+  );
 
   return (
     <form onSubmit={handleSubmit}>
-      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-        <input
-          style={{ background: "#1a1a24", border: "1px solid #2a2a3e", borderRadius: 10, padding: "12px 16px", color: "#fff", fontSize: 15, fontFamily: "inherit", outline: "none" }}
-          type="text" placeholder="Prenume (opțional)"
-          value={form.nume} onChange={(e) => setForm(f => ({ ...f, nume: e.target.value }))}
-        />
-        <input
-          style={{ background: "#1a1a24", border: "1px solid #2a2a3e", borderRadius: 10, padding: "12px 16px", color: "#fff", fontSize: 15, fontFamily: "inherit", outline: "none" }}
-          type="email" placeholder="Email *" required
-          value={form.email} onChange={(e) => setForm(f => ({ ...f, email: e.target.value }))}
-        />
+      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <input className="form-input" type="text" placeholder="Prenume (opțional)" value={form.nume} onChange={(e) => setForm(f => ({ ...f, nume: e.target.value }))} />
+        <input className="form-input" type="email" placeholder="Email *" required value={form.email} onChange={(e) => setForm(f => ({ ...f, email: e.target.value }))} />
         {status === "error" && (
-          <div style={{ fontSize: 13, color: "#f87171", padding: "10px 14px", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)", borderRadius: 8 }}>
-            {errorMsg}
-          </div>
+          <div style={{ fontSize: 13, color: "#f87171", padding: "10px 14px", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)", borderRadius: 8 }}>{errorMsg}</div>
         )}
-        <button type="submit" disabled={status === "loading"}
-          style={{
-            padding: "14px 24px", borderRadius: 10, fontSize: 16, fontWeight: 700, border: "none",
-            background: "linear-gradient(135deg, #6c63ff, #a78bfa)",
-            color: "#fff", cursor: "pointer", fontFamily: "inherit",
-            boxShadow: "0 8px 24px rgba(108,99,255,0.3)",
-            opacity: status === "loading" ? 0.7 : 1,
-          }}>
+        <button type="submit" className="btn-primary-lg" disabled={status === "loading"} style={{ width: "100%", marginTop: 4 }}>
           {status === "loading" ? "Se înscrie..." : "Rezervă-mi locul acum →"}
         </button>
       </div>
@@ -220,167 +189,128 @@ function WaitlistForm({ sursa, isBusiness }: { sursa: string; isBusiness: boolea
   );
 }
 
-// ─── PAGE ───────────────────────────────────────────────────────────────────
+// ─── PAGE ─────────────────────────────────────────────────────────────────────
 
 export default function LpPage() {
   const params = useParams();
   const searchParams = useSearchParams();
   const cohort = (params?.cohort as string)?.toLowerCase() as CohortKey;
   const data = COHORT_DATA[cohort] ?? COHORT_DATA.angajat;
-  const isBusiness = cohort === "manager";
+  const sursa = searchParams?.get("src") ?? `lp-${cohort}`;
 
-  // sursa = cohort + eventualul ?src= din URL (pentru variante de ad)
-  const adSrc = searchParams?.get("src");
-  const sursa = adSrc ?? `lp-${cohort}`;
-
-  const [isYearly, setIsYearly] = useState(false);
-  const price = isYearly ? data.planPriceYearly : data.planPrice;
-  const originalPrice = isYearly ? data.planPriceYearlyOriginal : data.planPriceOriginal;
+  const plans = data.planKeys.map(k => ALL_PLANS[k]);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0d0d12", color: "#fff", fontFamily: "Inter, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: "var(--bg)", color: "var(--text)", fontFamily: "Inter, -apple-system, sans-serif" }}>
 
-      {/* NAV minimal */}
-      <nav style={{ padding: "20px 40px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid #1f1f2e" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <div style={{ width: 28, height: 28, borderRadius: 8, background: "linear-gradient(135deg, #6c63ff, #a78bfa)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700 }}>E</div>
-          <span style={{ fontWeight: 700, fontSize: 16 }}>EduAI</span>
-        </div>
-        <a href="/" style={{ fontSize: 13, color: "#8888a8", textDecoration: "none" }}>← Înapoi la site</a>
+      {/* NAV — logo centrat, nimic altceva */}
+      <nav style={{ padding: "20px 40px", display: "flex", justifyContent: "center", borderBottom: "1px solid var(--border)", background: "rgba(13,13,18,0.85)", backdropFilter: "blur(20px)", position: "sticky", top: 0, zIndex: 200 }}>
+        <img src="/logo.png" alt="EduAI" style={{ height: 32, width: "auto" }} />
       </nav>
 
-      {/* HERO */}
-      <div style={{ maxWidth: 760, margin: "0 auto", padding: "80px 32px 60px", textAlign: "center" }}>
-        <div style={{ display: "inline-block", fontSize: 12, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: "#a78bfa", background: "rgba(108,99,255,0.12)", border: "1px solid rgba(108,99,255,0.25)", borderRadius: 6, padding: "4px 14px", marginBottom: 24 }}>
-          {data.badge}
+      {/* HERO cu background animat identic */}
+      <BackgroundGradientAnimation
+        gradientBackgroundStart="rgb(10, 8, 20)"
+        gradientBackgroundEnd="rgb(18, 10, 40)"
+        firstColor="108, 99, 255"
+        secondColor="140, 100, 255"
+        thirdColor="80, 60, 200"
+        fourthColor="60, 40, 160"
+        fifthColor="120, 80, 240"
+        pointerColor="108, 99, 255"
+        size="60%"
+        blendingValue="screen"
+        containerClassName="hero"
+        className="w-full h-full"
+      >
+        <div className="hero-grid-bg" />
+        <div className="hero-inner" style={{ textAlign: "center" }}>
+          <div className="hero-badge">
+            <div className="hero-badge-dot" />
+            <span>{data.badge}</span>
+          </div>
+
+          <h1 className="hero-h1">
+            <span className="grad">{data.headline}</span>
+            <br />
+            {data.headlineSub}
+          </h1>
+
+          <p className="hero-sub">{data.subheadline}</p>
+
+          {/* FORM CARD */}
+          <div style={{ background: "var(--bg2)", border: "1px solid var(--border2)", borderRadius: 16, padding: "32px", maxWidth: 520, width: "100%", margin: "32px auto 0" }}>
+            <WaitlistForm sursa={sursa} />
+            <div style={{ display: "flex", gap: 20, justifyContent: "center", flexWrap: "wrap", marginTop: 20, paddingTop: 20, borderTop: "1px solid var(--border)" }}>
+              {["✓ 100% în română", "✓ Certificat la final", "✓ Preț special waitlist"].map(t => (
+                <span key={t} style={{ fontSize: 13, color: "var(--muted2)", fontWeight: 500 }}>{t}</span>
+              ))}
+            </div>
+          </div>
         </div>
-        <h1 style={{ fontSize: "clamp(28px, 4.5vw, 52px)", fontWeight: 900, letterSpacing: "-1.5px", lineHeight: 1.1, marginBottom: 20, background: "linear-gradient(135deg, #fff 50%, #a78bfa)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-          {data.headline}
-        </h1>
-        <p style={{ fontSize: "clamp(16px, 2vw, 20px)", color: "#8888a8", lineHeight: 1.65, marginBottom: 0 }}>
-          {data.subheadline}
-        </p>
-      </div>
+      </BackgroundGradientAnimation>
 
       {/* PAIN POINTS */}
-      <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 32px 72px" }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          {data.painPoints.map((p, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 16, background: "#13131a", border: "1px solid #1f1f2e", borderRadius: 12, padding: "18px 20px" }}>
-              <span style={{ fontSize: 22, flexShrink: 0 }}>{p.icon}</span>
-              <span style={{ fontSize: 16, color: "#b0b0c8", lineHeight: 1.55 }}>{p.text}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* SEPARATOR */}
-      <div style={{ maxWidth: 760, margin: "0 auto 72px", padding: "0 32px" }}>
-        <div style={{ height: 1, background: "linear-gradient(90deg, transparent, #2a2a3e, transparent)" }} />
-      </div>
-
-      {/* TESTIMONIAL */}
-      <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 32px 72px" }}>
-        <div style={{ background: "#13131a", border: "1px solid #2a2a3e", borderRadius: 16, padding: "32px", position: "relative" }}>
-          <div style={{ fontSize: 32, color: "#6c63ff", marginBottom: 12, lineHeight: 1 }}>"</div>
-          <p style={{ fontSize: 17, color: "#b0b0c8", lineHeight: 1.7, marginBottom: 20, fontStyle: "italic" }}>
-            {data.testimonial.text}
-          </p>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <div style={{ width: 40, height: 40, borderRadius: "50%", background: "linear-gradient(135deg, #6c63ff, #a78bfa)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 16 }}>
-              {data.testimonial.name[0]}
-            </div>
-            <div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>{data.testimonial.name}</div>
-              <div style={{ fontSize: 13, color: "#8888a8" }}>{data.testimonial.role}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* PLAN + FORM */}
-      <div style={{ maxWidth: 560, margin: "0 auto", padding: "0 32px 100px" }}>
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <h2 style={{ fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 800, letterSpacing: "-1px", marginBottom: 12 }}>
-            {data.ctaHeadline}
-          </h2>
-          <p style={{ fontSize: 15, color: "#8888a8" }}>{data.ctaSubtext}</p>
-        </div>
-
-        <div style={{ background: "#13131a", border: "2px solid #6c63ff", borderRadius: 20, padding: "36px", boxShadow: "0 0 60px rgba(108,99,255,0.15)" }}>
-
-          {/* Toggle lunar/anual — doar pentru non-business */}
-          {!isBusiness && (
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 12, marginBottom: 28 }}>
-              <span style={{ fontSize: 13, fontWeight: 500, color: !isYearly ? "#fff" : "#8888a8" }}>Lunar</span>
-              <button onClick={() => setIsYearly(v => !v)}
-                style={{ position: "relative", width: 44, height: 24, borderRadius: 100, border: "none", cursor: "pointer", background: isYearly ? "#6c63ff" : "#2a2a3e", transition: "background 0.25s", flexShrink: 0 }}>
-                <span style={{ position: "absolute", top: 2, left: isYearly ? 22 : 2, width: 20, height: 20, borderRadius: "50%", background: "#fff", transition: "left 0.25s", boxShadow: "0 1px 4px rgba(0,0,0,0.3)" }} />
-              </button>
-              <span style={{ fontSize: 13, fontWeight: 600, color: isYearly ? "#fff" : "#8888a8" }}>
-                Anual <span style={{ color: "#6c63ff" }}>(−20%)</span>
-              </span>
-            </div>
-          )}
-
-          {/* Badge plan */}
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: "#a78bfa", marginBottom: 12 }}>
-            {data.planName}
-          </div>
-
-          {/* Ofertă lansare */}
-          {!isBusiness && (
-            <div style={{ marginBottom: 16 }}>
-              <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 6, background: "rgba(108,99,255,0.15)", color: "#a78bfa", border: "1px solid rgba(108,99,255,0.3)", letterSpacing: "0.5px" }}>
-                Ofertă lansare -40%
-              </span>
-            </div>
-          )}
-
-          {/* Preț */}
-          {!isBusiness && price && (
-            <div style={{ marginBottom: 24 }}>
-              <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-                <span style={{ fontSize: 52, fontWeight: 900, letterSpacing: "-2px", color: "#fff" }}>{price}</span>
-                <span style={{ fontSize: 16, color: "#8888a8" }}>RON</span>
-                {originalPrice && (
-                  <span style={{ fontSize: 15, color: "#555570", textDecoration: "line-through", marginLeft: 4 }}>{originalPrice} RON</span>
-                )}
+      <div className="section">
+        <div className="section-inner">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
+            {data.painPoints.map((p, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 16, background: "var(--bg2)", border: "1px solid var(--border)", borderRadius: 14, padding: "22px 24px" }}>
+                <span style={{ fontSize: 26, flexShrink: 0, marginTop: 2 }}>{p.icon}</span>
+                <div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", marginBottom: 6 }}>{p.title}</div>
+                  <div style={{ fontSize: 14, color: "var(--muted)", lineHeight: 1.65 }}>{p.text}</div>
+                </div>
               </div>
-              <div style={{ fontSize: 13, color: "#8888a8", marginTop: 4 }}>
-                / lună · {isYearly ? "facturat anual" : "facturat lunar"}
-              </div>
-            </div>
-          )}
-
-          {/* Features */}
-          <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
-            {data.planFeatures.map((f, i) => (
-              <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                <span style={{ color: "#a78bfa", flexShrink: 0, marginTop: 1 }}>✓</span>
-                <span style={{ fontSize: 14, color: "#b0b0c8" }}>{f}</span>
-              </li>
-            ))}
-          </ul>
-
-          <div style={{ height: 1, background: "#1f1f2e", marginBottom: 24 }} />
-
-          {/* Form */}
-          <WaitlistForm sursa={sursa} isBusiness={isBusiness} />
-
-          {/* Trust badges */}
-          <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", marginTop: 20, paddingTop: 20, borderTop: "1px solid #1f1f2e" }}>
-            {data.trustBadges.map(b => (
-              <span key={b} style={{ fontSize: 12, color: "#8888a8", fontWeight: 500 }}>{b}</span>
             ))}
           </div>
         </div>
       </div>
 
-      {/* FOOTER minimal */}
-      <div style={{ borderTop: "1px solid #1f1f2e", padding: "24px 40px", textAlign: "center" }}>
-        <span style={{ fontSize: 13, color: "#555570" }}>© 2025 EduAI by Nesco Digital · <a href="/" style={{ color: "#8888a8", textDecoration: "none" }}>Site principal</a></span>
+      {/* LOGO CLOUD — identic cu pagina principală */}
+      <div style={{ background: "var(--bg)" }}>
+        <LogoCloud
+          logos={AI_LOGOS}
+          title="Instrumente urmărite și testate de noi."
+          subtitle="Cele mai relevante pentru business-ul tău."
+          style={{ margin: "0 auto" }}
+        />
       </div>
+
+      {/* TESTIMONIALE — identice cu pagina principală */}
+      <div className="section">
+        <div className="section-inner">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true }}
+            style={{ display: "flex", flexDirection: "column", alignItems: "center", maxWidth: 540, margin: "0 auto 48px", textAlign: "center" }}
+          >
+            <div style={{ display: "inline-flex", border: "1px solid #2a2a3e", borderRadius: 8, padding: "4px 16px", fontSize: 12, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: "#a78bfa", marginBottom: 16 }}>
+              Testimoniale
+            </div>
+            <h2 className="section-title" style={{ marginBottom: 12 }}>{data.testimonialsTitle}</h2>
+            <p style={{ fontSize: 15, color: "#8888a8", lineHeight: 1.65 }}>{data.testimonialsDesc}</p>
+          </motion.div>
+
+          <div style={{ display: "flex", justifyContent: "center", gap: 20, maxHeight: 700, overflow: "hidden", maskImage: "linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)", WebkitMaskImage: "linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)" }}>
+            <TestimonialsColumn testimonials={TESTIMONIALS.slice(0, 3)} duration={18} />
+            <TestimonialsColumn testimonials={TESTIMONIALS.slice(3, 6)} duration={22} className="hidden-mobile" />
+            <TestimonialsColumn testimonials={TESTIMONIALS.slice(6, 9)} duration={20} className="hidden-tablet" />
+          </div>
+        </div>
+      </div>
+
+      {/* PRICING — componenta identică cu pagina principală */}
+      <div id="pricing-section" style={{ background: "var(--bg2)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
+        <Pricing
+          plans={plans}
+          title={data.ctaHeadline}
+          description={data.ctaDesc}
+        />
+      </div>
+
     </div>
   );
 }
