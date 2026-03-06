@@ -10,6 +10,7 @@ import { Pricing } from "@/components/blocks/pricing";
 import { BentoGrid, type BentoItem } from "@/components/ui/bento-grid";
 import { Rocket, Megaphone, Zap, MessageSquare, BarChart2, Bot, TrendingUp, Users } from "lucide-react";
 import { SegmentationModal } from "@/components/ui/segmentation-modal";
+import { PresaleModal } from "@/components/ui/presale-modal";
 
 // ─── LOGOS ────────────────────────────────────────────────────────────────────
 
@@ -163,6 +164,11 @@ function WaitlistForm({ sursa, label = "Rezervă-mi locul acum →", onSuccess }
         <button type="submit" className="btn-primary-lg" disabled={status === "loading"} style={{ width: "100%", marginTop: 4 }}>
           {status === "loading" ? "Se înscrie..." : label}
         </button>
+        <p style={{ fontSize: 12, color: "var(--muted)", lineHeight: 1.6, textAlign: "center", marginTop: 4 }}>
+          Prin înscriere, ești de acord cu prelucrarea datelor tale personale în conformitate cu{" "}
+          <a href="/politica-confidentialitate" style={{ color: "var(--muted2)", textDecoration: "underline" }}>Politica de Confidențialitate</a>.
+          Nu trimitem spam.
+        </p>
       </div>
     </form>
   );
@@ -192,11 +198,8 @@ function StatsBar() {
 
 // ─── FIXED BOTTOM CTA (mobile) ────────────────────────────────────────────────
 
-function FixedBottomCta({ sursa }: { sursa: string }) {
+function FixedBottomCta({ sursa: _sursa, onSuccess: _onSuccess }: { sursa: string; onSuccess?: (email: string) => void }) {
   const [visible, setVisible] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 400);
@@ -204,34 +207,17 @@ function FixedBottomCta({ sursa }: { sursa: string }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!email) return;
-    setLoading(true);
-    try {
-      const res = await fetch("/api/waitlist", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, sursa: `${sursa}-fixed-cta` }) });
-      if (res.ok) setSubmitted(true);
-    } catch {}
-    setLoading(false);
-  }
-
   if (!visible) return null;
 
   return (
-    <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 999, background: "rgba(13,13,18,0.97)", backdropFilter: "blur(20px)", borderTop: "1px solid var(--border2)", padding: "16px 20px", display: "flex", alignItems: "center", gap: 12 }}
+    <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 999, padding: "12px 16px 20px", display: "flex", justifyContent: "center" }}
       className="show-mobile-only">
-      {submitted ? (
-        <div style={{ flex: 1, textAlign: "center", fontSize: 15, fontWeight: 600, color: "#a78bfa" }}>🎉 Ești pe listă!</div>
-      ) : (
-        <form onSubmit={handleSubmit} style={{ flex: 1, display: "flex", gap: 10 }}>
-          <input type="email" placeholder="Email-ul tău" required value={email} onChange={(e) => setEmail(e.target.value)}
-            style={{ flex: 1, background: "var(--bg3)", border: "1px solid var(--border2)", borderRadius: 10, padding: "11px 14px", color: "#fff", fontSize: 14, fontFamily: "inherit", outline: "none", minWidth: 0 }} />
-          <button type="submit" disabled={loading}
-            style={{ padding: "11px 18px", borderRadius: 10, background: "linear-gradient(135deg, #6c63ff, #a78bfa)", color: "#fff", fontWeight: 700, fontSize: 14, border: "none", cursor: "pointer", fontFamily: "inherit", whiteSpace: "nowrap" }}>
-            {loading ? "..." : "Rezervă →"}
-          </button>
-        </form>
-      )}
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        className="fixed-cta-pulse"
+      >
+        Rezerva-mi locul GRATUIT
+      </button>
     </div>
   );
 }
@@ -246,9 +232,10 @@ function LpPageInner() {
   const sursa = searchParams?.get("src") ?? `lp-${cohort}`;
   const plans = data.planKeys.map(k => ALL_PLANS[k]);
   const [modalEmail, setModalEmail] = useState<string | null>(null);
+  const [presaleEmail, setPresaleEmail] = useState<string | null>(null);
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--bg)", color: "var(--text)", fontFamily: "Inter, -apple-system, sans-serif", paddingBottom: 80 }}>
+    <div style={{ minHeight: "100vh", background: "#0d0d12", color: "#ffffff", fontFamily: "Inter, -apple-system, sans-serif", paddingBottom: 80 }}>
 
       {/* NAV — logo centrat */}
       <nav style={{ padding: "18px 40px", display: "flex", justifyContent: "center", borderBottom: "1px solid var(--border)", background: "rgba(13,13,18,0.9)", backdropFilter: "blur(20px)", position: "sticky", top: 0, zIndex: 200 }}>
@@ -264,7 +251,30 @@ function LpPageInner() {
         size="60%" blendingValue="screen" containerClassName="hero" className="w-full h-full"
       >
         <div className="hero-grid-bg" />
+
+        {/* Floating hexagonal element — right side */}
+        <img
+          src="/hero-element.png"
+          alt=""
+          style={{
+            position: "absolute",
+            right: "-160px",
+            top: "120px",
+            width: 500,
+            opacity: 0.7,
+            animation: "float 4s ease-in-out infinite",
+            filter: "drop-shadow(0 24px 60px rgba(108,99,255,0.3))",
+            pointerEvents: "none",
+            zIndex: 1,
+          }}
+        />
+
         <div className="hero-inner" style={{ textAlign: "center" }}>
+          <div className="launch-badge" style={{ marginBottom: 16 }}>
+            <div className="launch-badge-dot" />
+            <span>Lansare in curand</span>
+          </div>
+
           <div className="hero-badge">
             <div className="hero-badge-dot" />
             <span>{data.badge}</span>
@@ -383,13 +393,24 @@ function LpPageInner() {
         </div>
       </div>
 
+      {/* FOOTER */}
+      <footer style={{ borderTop: "1px solid var(--border)", padding: "24px 24px", textAlign: "center" }}>
+        <span style={{ fontSize: 13, color: "var(--muted)" }}>© 2026 Edu-AI. Toate drepturile rezervate.</span>
+      </footer>
+
       {/* FIXED BOTTOM CTA — doar pe mobile */}
-      <FixedBottomCta sursa={sursa} />
+      <FixedBottomCta sursa={sursa} onSuccess={setModalEmail} />
 
       <SegmentationModal
         email={modalEmail ?? ""}
         isOpen={!!modalEmail}
         onClose={() => setModalEmail(null)}
+        onComplete={() => { setPresaleEmail(modalEmail); setModalEmail(null); }}
+      />
+      <PresaleModal
+        email={presaleEmail ?? ""}
+        isOpen={!!presaleEmail}
+        onClose={() => setPresaleEmail(null)}
       />
 
     </div>
@@ -398,7 +419,7 @@ function LpPageInner() {
 
 export default function LpPage() {
   return (
-    <Suspense fallback={<div style={{ minHeight: "100vh", background: "var(--bg)" }} />}>
+    <Suspense fallback={<div style={{ minHeight: "100vh", background: "#0d0d12" }} />}>
       <LpPageInner />
     </Suspense>
   );

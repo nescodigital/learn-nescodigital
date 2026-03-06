@@ -6,6 +6,7 @@ interface SegmentationModalProps {
   email: string;
   isOpen: boolean;
   onClose: () => void;
+  onComplete?: () => void;
 }
 
 const ROL_OPTIONS = [
@@ -78,7 +79,7 @@ function OptionGroup({
   );
 }
 
-export function SegmentationModal({ email, isOpen, onClose }: SegmentationModalProps) {
+export function SegmentationModal({ email, isOpen, onClose, onComplete }: SegmentationModalProps) {
   const [rol, setRol] = useState("");
   const [industrie, setIndustrie] = useState("");
   const [nivel_ai, setNivelAi] = useState("");
@@ -96,13 +97,13 @@ export function SegmentationModal({ email, isOpen, onClose }: SegmentationModalP
     }
   }, [isOpen, email]);
 
-  // Auto-close after success
+  // Auto-close after success, then open presale
   useEffect(() => {
     if (status === "success") {
-      const t = setTimeout(onClose, 2200);
+      const t = setTimeout(() => { onClose(); onComplete?.(); }, 2200);
       return () => clearTimeout(t);
     }
-  }, [status, onClose]);
+  }, [status, onClose, onComplete]);
 
   // Close on Escape
   useEffect(() => {
@@ -276,7 +277,7 @@ export function SegmentationModal({ email, isOpen, onClose }: SegmentationModalP
                 </button>
                 <button
                   type="button"
-                  onClick={onClose}
+                  onClick={() => { onClose(); onComplete?.(); }}
                   style={{
                     background: "none",
                     border: "none",

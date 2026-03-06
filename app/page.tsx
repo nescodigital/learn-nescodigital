@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Pricing } from "@/components/blocks/pricing";
 import { TestimonialsColumn, type Testimonial } from "@/components/ui/testimonials-columns-1";
@@ -11,6 +11,7 @@ import { BentoGrid, type BentoItem } from "@/components/ui/bento-grid";
 import { motion } from "framer-motion";
 import { Rocket, Megaphone, Zap, MessageSquare, BarChart2, Bot, TrendingUp, Users } from "lucide-react";
 import { SegmentationModal } from "@/components/ui/segmentation-modal";
+import { PresaleModal } from "@/components/ui/presale-modal";
 
 // Only wordmark SVGs (verified) — no icon-only logos
 const AI_LOGOS = [
@@ -443,6 +444,7 @@ function HomePage({
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [modalEmail, setModalEmail] = useState<string | null>(null);
+  const [presaleEmail, setPresaleEmail] = useState<string | null>(null);
   const searchParams = useSearchParams();
   const sursa = searchParams?.get("src") ?? "direct";
 
@@ -509,6 +511,11 @@ function HomePage({
         />
 
         <div className="hero-inner">
+          <div className="launch-badge" style={{ marginBottom: 16 }}>
+            <div className="launch-badge-dot" />
+            <span>Lansare in curand</span>
+          </div>
+
           <div className="hero-badge">
             <div className="hero-badge-dot" />
             <span>
@@ -604,6 +611,11 @@ function HomePage({
                   >
                     {status === "loading" ? "Se înscrie..." : "Rezervă-mi locul acum →"}
                   </button>
+                  <p style={{ fontSize: 12, color: "var(--muted)", lineHeight: 1.6, textAlign: "center", marginTop: 4 }}>
+                    Prin înscriere, ești de acord cu prelucrarea datelor tale personale în conformitate cu{" "}
+                    <a href="/politica-confidentialitate" style={{ color: "var(--muted2)", textDecoration: "underline" }}>Politica de Confidențialitate</a>.
+                    Nu trimitem spam.
+                  </p>
                 </div>
               </form>
             )}
@@ -782,6 +794,12 @@ function HomePage({
         email={modalEmail ?? ""}
         isOpen={!!modalEmail}
         onClose={() => setModalEmail(null)}
+        onComplete={() => { setPresaleEmail(modalEmail); setModalEmail(null); }}
+      />
+      <PresaleModal
+        email={presaleEmail ?? ""}
+        isOpen={!!presaleEmail}
+        onClose={() => setPresaleEmail(null)}
       />
     </>
   );
@@ -1127,7 +1145,11 @@ export default function App() {
     <>
       <Header page={page} setPage={setPage} scrollToForm={scrollToForm} />
 
-      {page === "home" && <HomePage count={count} formRef={formRef} scrollToForm={scrollToForm} />}
+      {page === "home" && (
+        <Suspense fallback={<div style={{ minHeight: "100vh", background: "#0d0d12" }} />}>
+          <HomePage count={count} formRef={formRef} scrollToForm={scrollToForm} />
+        </Suspense>
+      )}
       {page === "catalog" && <CatalogPage />}
       {page === "dashboard" && <DashboardPage />}
 
@@ -1139,7 +1161,7 @@ export default function App() {
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <img src="/logo.png" alt="Edu-AI" style={{ height: 24, width: "auto", opacity: 0.35, filter: "grayscale(1)" }} />
               </div>
-              <span style={{ fontSize: 13, color: "var(--muted)" }}>© 2026 Edu-AI</span>
+              <span style={{ fontSize: 13, color: "var(--muted)" }}>© 2026 Edu-AI. Toate drepturile rezervate.</span>
             </div>
           </div>
         </footer>

@@ -1,0 +1,71 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Confirmat! | Edu-AI",
+  description: "Locul tau presale este confirmat. Te contactam la lansare.",
+};
+
+export default function SuccessPage() {
+  return (
+    <div style={{ minHeight: "100vh", background: "#0d0d12", color: "#ffffff", fontFamily: "Inter, -apple-system, sans-serif", display: "flex", flexDirection: "column" }}>
+      <nav style={{ padding: "18px 40px", display: "flex", justifyContent: "center", borderBottom: "1px solid #1f1f2e", background: "rgba(13,13,18,0.9)", backdropFilter: "blur(20px)" }}>
+        <img src="/logo.png" alt="Edu-AI" style={{ height: 30, width: "auto" }} />
+      </nav>
+
+      <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "40px 24px" }}>
+        <div style={{ maxWidth: 520, width: "100%", textAlign: "center" }}>
+
+          {/* Icon */}
+          <div style={{ fontSize: 64, marginBottom: 24 }}>🎉</div>
+
+          {/* Badge */}
+          <div style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: "#a78bfa", marginBottom: 16, background: "rgba(108,99,255,0.12)", border: "1px solid rgba(108,99,255,0.3)", borderRadius: 100, padding: "6px 16px" }}>
+            Presale confirmat
+          </div>
+
+          <h1 style={{ fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, letterSpacing: "-1px", marginBottom: 16, lineHeight: 1.15 }}>
+            Esti la bord.
+          </h1>
+
+          <p style={{ fontSize: 16, color: "#b0b0c8", lineHeight: 1.7, marginBottom: 32 }}>
+            Cardul tau a fost salvat in siguranta. Nu esti taxat acum.
+            Prima plata se face automat la lansare (maximum 15 mai 2026).
+            Poti anula oricand inainte, fara nicio taxa.
+          </p>
+
+          {/* What happens next */}
+          <div style={{ background: "#13131a", border: "1px solid #2a2a3e", borderRadius: 16, padding: "28px 24px", marginBottom: 32, textAlign: "left" }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: "#8888a8", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 16 }}>Ce urmeaza</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {[
+                { icon: "📧", text: "Primesti un email de confirmare de la Stripe in cateva minute" },
+                { icon: "🔒", text: "Pretul tau este blocat — nu va creste niciodata pentru tine" },
+                { icon: "🚀", text: "La lansare primesti primul email cu acces la platforma" },
+                { icon: "💬", text: "Esti adaugat in comunitatea privata pre-lansare" },
+              ].map(({ icon, text }) => (
+                <div key={text} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                  <span style={{ fontSize: 20, flexShrink: 0 }}>{icon}</span>
+                  <span style={{ fontSize: 14, color: "#b0b0c8", lineHeight: 1.6 }}>{text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <Link href="/" style={{ display: "inline-block", padding: "13px 28px", borderRadius: 10, background: "linear-gradient(135deg, #6c63ff, #a78bfa)", color: "#fff", fontWeight: 700, fontSize: 15, textDecoration: "none", boxShadow: "0 8px 24px rgba(108,99,255,0.35)" }}>
+            Inapoi la pagina principala
+          </Link>
+
+          <p style={{ fontSize: 12, color: "#555570", marginTop: 20, lineHeight: 1.6 }}>
+            Intrebari? Scrie-ne la{" "}
+            <a href="mailto:hello@edu-ai.ro" style={{ color: "#a78bfa", textDecoration: "underline" }}>hello@edu-ai.ro</a>
+          </p>
+        </div>
+      </div>
+
+      <footer style={{ borderTop: "1px solid #1f1f2e", padding: "24px", textAlign: "center" }}>
+        <span style={{ fontSize: 13, color: "#8888a8" }}>© 2026 Edu-AI. Toate drepturile rezervate.</span>
+      </footer>
+    </div>
+  );
+}
