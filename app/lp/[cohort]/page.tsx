@@ -87,7 +87,7 @@ const COHORT_DATA = {
   antreprenor: {
     badge: "Pentru antreprenori și freelanceri",
     headline: "Businessul tău pierde bani",
-    headlineSub: "în fiecare zi fără AI.",
+    headlineSub: "Fiecare zi fără AI costă.",
     knife: "Concurenții tăi automatizează deja. Tu încă faci manual ce ei fac în 10 minute.",
     subheadline: "Cursuri video 100% în română, cu exemple reale din piața românească. Automatizări, marketing, vânzări și AI. ROI vizibil din prima lună.",
     painPoints: [
@@ -270,17 +270,17 @@ export default function LpPage() {
             <span>{data.badge}</span>
           </div>
 
-          <h1 className="hero-h1">
+          <h1 className="hero-h1" style={{ fontSize: "clamp(36px, 5.5vw, 66px)", maxWidth: 720, margin: "0 auto 20px" }}>
             <span className="grad">{data.headline}</span>
             <br />{data.headlineSub}
           </h1>
 
-          {/* CUȚIT ÎN RANĂ sub headline */}
-          <p style={{ fontWeight: 700, fontSize: "clamp(15px, 1.8vw, 18px)", color: "#fff", margin: "0 auto 16px", maxWidth: 560, lineHeight: 1.5 }}>
+          <p className="hero-sub" style={{ marginBottom: 12 }}>{data.subheadline}</p>
+
+          {/* CUȚIT ÎN RANĂ sub subheadline */}
+          <p style={{ fontWeight: 700, fontSize: "clamp(15px, 1.8vw, 18px)", color: "#fff", margin: "0 auto 28px", maxWidth: 560, lineHeight: 1.5 }}>
             {data.knife}
           </p>
-
-          <p className="hero-sub" style={{ marginBottom: 32 }}>{data.subheadline}</p>
 
           {/* FORM CARD */}
           <div style={{ background: "var(--bg2)", border: "1px solid var(--border2)", borderRadius: 16, padding: "32px", maxWidth: 520, width: "100%", margin: "0 auto" }}>

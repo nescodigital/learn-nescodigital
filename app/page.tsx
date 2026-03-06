@@ -523,13 +523,13 @@ function HomePage({
             Îl ia cel care știe să-l folosească.
           </h1>
 
-          <p className="hero-sub">
+          <p className="hero-sub" style={{ marginBottom: 12 }}>
             Cursuri video 100% în română, cu exemple din piața românească.
             Automatizări, marketing, vânzări și AI. Aplici din prima săptămână.
             Certificat la final.
           </p>
 
-          <p style={{ fontWeight: 700, fontSize: "1.05rem", marginTop: "0.75rem" }}>
+          <p style={{ fontWeight: 700, fontSize: "clamp(15px, 1.8vw, 18px)", color: "#fff", marginBottom: "1.5rem" }}>
             Fiecare zi fără AI înseamnă bani lăsați pe masă.
           </p>
 
