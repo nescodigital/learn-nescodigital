@@ -106,7 +106,7 @@ const COHORT_DATA = {
   manager: {
     badge: "Pentru manageri și directori",
     headline: "Echipa ta rămâne în urmă.",
-    headlineSub: "Tu ești responsabil.",
+    headlineSub: "Acum e momentul.",
     knife: "Dacă echipa ta nu știe AI, tu nu ai câștigat nimic.",
     subheadline: "Training structurat în română, cu certificat per angajat și raport de progres inclus.",
     painPoints: [
@@ -275,15 +275,13 @@ function LpPageInner() {
             <br />{data.headlineSub}
           </h1>
 
-          <p className="hero-sub" style={{ marginBottom: 12 }}>{data.subheadline}</p>
-
-          {/* CUȚIT ÎN RANĂ sub subheadline */}
-          <p style={{ fontWeight: 700, fontSize: "clamp(15px, 1.8vw, 18px)", color: "#fff", margin: "0 auto 28px", maxWidth: 560, lineHeight: 1.5 }}>
-            {data.knife}
-          </p>
+          <p className="hero-sub" style={{ marginBottom: 28 }}>{data.subheadline}</p>
 
           {/* FORM CARD */}
           <div style={{ background: "var(--bg2)", border: "1px solid var(--border2)", borderRadius: 16, padding: "32px", maxWidth: 520, width: "100%", margin: "0 auto" }}>
+            <p style={{ fontWeight: 700, fontSize: 15, color: "#fff", marginBottom: 16, lineHeight: 1.5 }}>
+              {data.knife}
+            </p>
             <WaitlistForm sursa={sursa} onSuccess={setModalEmail} />
             <div style={{ display: "flex", gap: 20, justifyContent: "center", flexWrap: "wrap", marginTop: 20, paddingTop: 20, borderTop: "1px solid var(--border)" }}>
               {["✓ 100% în română", "✓ Certificat la final", "✓ Preț special waitlist"].map(t => (

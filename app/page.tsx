@@ -523,14 +523,10 @@ function HomePage({
             Îl ia cel care știe să-l folosească.
           </h1>
 
-          <p className="hero-sub" style={{ marginBottom: 12 }}>
+          <p className="hero-sub" style={{ marginBottom: 28 }}>
             Cursuri video 100% în română, cu exemple din piața românească.
             Automatizări, marketing, vânzări și AI. Aplici din prima săptămână.
             Certificat la final.
-          </p>
-
-          <p style={{ fontWeight: 800, fontSize: "clamp(17px, 1.5vw, 20px)", color: "#fff", marginBottom: "1.75rem", letterSpacing: "-0.2px" }}>
-            Fiecare zi fără AI înseamnă bani lăsați pe masă.
           </p>
 
           {/* FORM CARD */}
@@ -558,6 +554,9 @@ function HomePage({
               </div>
             ) : (
               <form onSubmit={handleSubmit}>
+                <p style={{ fontWeight: 700, fontSize: 15, color: "#fff", marginBottom: 16, lineHeight: 1.5 }}>
+                  Fiecare zi fără AI înseamnă bani lăsați pe masă.
+                </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                   <input
                     className="form-input"
