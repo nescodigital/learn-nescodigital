@@ -21,6 +21,7 @@ interface PricingPlan {
   buttonText: string;
   href: string;
   isPopular: boolean;
+  isBusiness?: boolean;
 }
 
 interface PricingProps {
@@ -185,49 +186,57 @@ export function Pricing({
               {plan.name}
             </div>
 
-            {/* Launch badge */}
-            <div style={{ marginBottom: 12 }}>
-              <span style={{
-                display: "inline-block",
-                fontSize: 11,
-                fontWeight: 700,
-                padding: "3px 10px",
-                borderRadius: 6,
-                background: "rgba(108,99,255,0.15)",
-                color: "#a78bfa",
-                border: "1px solid rgba(108,99,255,0.3)",
-                letterSpacing: "0.5px",
-              }}>
-                Ofertă lansare -40%
-              </span>
-            </div>
-
-            {/* Price */}
-            <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 4 }}>
-              <span style={{ fontSize: 48, fontWeight: 900, letterSpacing: "-2px", color: "#fff" }}>
-                <NumberFlow
-                  value={isMonthly ? Number(plan.price) : Number(plan.yearlyPrice)}
-                  transformTiming={{ duration: 450, easing: "ease-out" }}
-                  willChange
-                />
-              </span>
-              <span style={{ fontSize: 16, fontWeight: 500, color: "#8888a8" }}>RON</span>
-              {(isMonthly ? plan.originalPrice : plan.originalYearlyPrice) && (
-                <span style={{ fontSize: 15, color: "#555570", textDecoration: "line-through", marginLeft: 4 }}>
-                  {isMonthly ? plan.originalPrice : plan.originalYearlyPrice} RON
+            {/* Launch badge — doar pentru planuri non-Business */}
+            {!plan.isBusiness && (
+              <div style={{ marginBottom: 12 }}>
+                <span style={{
+                  display: "inline-block",
+                  fontSize: 11,
+                  fontWeight: 700,
+                  padding: "3px 10px",
+                  borderRadius: 6,
+                  background: "rgba(108,99,255,0.15)",
+                  color: "#a78bfa",
+                  border: "1px solid rgba(108,99,255,0.3)",
+                  letterSpacing: "0.5px",
+                }}>
+                  Ofertă lansare -40%
                 </span>
-              )}
-            </div>
-            <div style={{ fontSize: 13, color: "#8888a8", marginBottom: 6 }}>
-              {plan.period !== "o singură dată" ? `/ ${plan.period}` : plan.period}
-            </div>
-            {plan.period !== "o singură dată" && (
-              <div style={{ fontSize: 12, color: "#8888a8", marginBottom: 20 }}>
-                {isMonthly ? "facturat lunar" : "facturat anual"}
               </div>
             )}
-            {plan.period === "o singură dată" && (
-              <div style={{ marginBottom: 20 }} />
+
+            {/* Price */}
+            {plan.isBusiness ? (
+              <>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 4 }}>
+                  <span style={{ fontSize: 14, fontWeight: 500, color: "#8888a8" }}>de la</span>
+                  <span style={{ fontSize: 48, fontWeight: 900, letterSpacing: "-2px", color: "#fff" }}>2.990</span>
+                  <span style={{ fontSize: 16, fontWeight: 500, color: "#8888a8" }}>RON</span>
+                </div>
+                <div style={{ fontSize: 13, color: "#8888a8", marginBottom: 20 }}>/ 6 luni · minim 3 licențe</div>
+              </>
+            ) : (
+              <>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 4 }}>
+                  <span style={{ fontSize: 48, fontWeight: 900, letterSpacing: "-2px", color: "#fff" }}>
+                    <NumberFlow
+                      value={isMonthly ? Number(plan.price) : Number(plan.yearlyPrice)}
+                      transformTiming={{ duration: 450, easing: "ease-out" }}
+                      willChange
+                    />
+                  </span>
+                  <span style={{ fontSize: 16, fontWeight: 500, color: "#8888a8" }}>RON</span>
+                  {(isMonthly ? plan.originalPrice : plan.originalYearlyPrice) && (
+                    <span style={{ fontSize: 15, color: "#555570", textDecoration: "line-through", marginLeft: 4 }}>
+                      {isMonthly ? plan.originalPrice : plan.originalYearlyPrice} RON
+                    </span>
+                  )}
+                </div>
+                <div style={{ fontSize: 13, color: "#8888a8", marginBottom: 6 }}>/ lună</div>
+                <div style={{ fontSize: 12, color: "#8888a8", marginBottom: 20 }}>
+                  {isMonthly ? "facturat lunar" : "facturat anual"}
+                </div>
+              </>
             )}
 
             {/* Description */}
