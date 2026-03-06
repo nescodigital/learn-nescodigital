@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import { Pricing } from "@/components/blocks/pricing";
 import { TestimonialsColumn, type Testimonial } from "@/components/ui/testimonials-columns-1";
 import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
@@ -440,6 +441,8 @@ function HomePage({
   const [form, setForm] = useState({ nume: "", email: "", interes: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const searchParams = useSearchParams();
+  const sursa = searchParams?.get("src") ?? "direct";
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -450,7 +453,7 @@ function HomePage({
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, sursa: "direct" }),
+        body: JSON.stringify({ ...form, sursa }),
       });
       const data = await res.json();
       if (!res.ok) {
