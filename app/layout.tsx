@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import { CookieBanner } from "@/components/ui/cookie-banner";
 
@@ -12,6 +13,14 @@ export const metadata: Metadata = {
     siteName: "Edu-AI",
     locale: "ro_RO",
     type: "website",
+    images: [
+      {
+        url: "https://edu-ai.ro/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Edu-AI: Cursuri AI practice pentru business",
+      },
+    ],
   },
 };
 
@@ -22,6 +31,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ro" style={{ background: "#0d0d12" }}>
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-4MPTZF110R"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-4MPTZF110R');
+          `}
+        </Script>
+      </head>
       <body style={{ background: "#0d0d12", color: "#ffffff" }}>
         {children}
         <CookieBanner />

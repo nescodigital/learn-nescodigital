@@ -22,6 +22,11 @@ export function CookieBanner() {
     setVisible(false);
   }
 
+  function decline() {
+    try { localStorage.setItem(COOKIE_KEY, "declined"); } catch {}
+    setVisible(false);
+  }
+
   if (!visible) return null;
 
   return (
@@ -78,6 +83,23 @@ export function CookieBanner() {
           }}
         >
           Accept cookies
+        </button>
+        <button
+          onClick={decline}
+          style={{
+            display: "block",
+            margin: "10px auto 0",
+            background: "none",
+            border: "none",
+            color: "#444460",
+            fontSize: 11,
+            cursor: "pointer",
+            fontFamily: "inherit",
+            textDecoration: "underline",
+            textUnderlineOffset: 2,
+          }}
+        >
+          Refuz
         </button>
       </div>
     </>

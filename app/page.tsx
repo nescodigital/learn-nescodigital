@@ -30,55 +30,55 @@ const AI_LOGOS = [
 const TESTIMONIALS_COLUMNS: Testimonial[] = [
   {
     text: "Am automatizat complet prospectarea. 40 de lead-uri calificate pe săptămână fără să ating tastatura. ROI în prima lună.",
-    image: "https://randomuser.me/api/portraits/men/32.jpg",
+    image: "/avatars/men-32.jpg",
     name: "Mihai D.",
     role: "Fondator, Agenție Imobiliară",
   },
   {
     text: "Cursul de n8n mi-a eliminat 15 ore de muncă manuală pe săptămână. Cel mai practic lucru din ultimul an.",
-    image: "https://randomuser.me/api/portraits/women/44.jpg",
+    image: "/avatars/women-44.jpg",
     name: "Ana P.",
     role: "Marketing Manager",
   },
   {
     text: "Fără background tehnic am implementat automatizări care m-au ajutat să compet cu firme mult mai mari.",
-    image: "https://randomuser.me/api/portraits/men/36.jpg",
+    image: "/avatars/men-36.jpg",
     name: "Radu T.",
     role: "CEO, E-commerce",
   },
   {
     text: "Cursurile sunt extrem de practice. Am aplicat primele automatizări chiar în timpul modulului 2.",
-    image: "https://randomuser.me/api/portraits/women/68.jpg",
+    image: "/avatars/women-68.jpg",
     name: "Ioana M.",
     role: "Antreprenor",
   },
   {
     text: "Content-ul AI generat cu metodele din curs a triplat engagement-ul pe LinkedIn în 3 săptămâni.",
-    image: "https://randomuser.me/api/portraits/men/76.jpg",
+    image: "/avatars/men-76.jpg",
     name: "Andrei S.",
     role: "Consultant B2B",
   },
   {
     text: "Am construit un agent AI care trimite rapoarte săptămânale automat. Echipa mea e șocată.",
-    image: "https://randomuser.me/api/portraits/women/12.jpg",
+    image: "/avatars/women-12.jpg",
     name: "Cristina B.",
     role: "Operations Director",
   },
   {
     text: "Recomand oricui vrea să rămână relevant în domeniu. AI-ul nu îți ia locul, dar cel care știe AI da.",
-    image: "https://randomuser.me/api/portraits/men/88.jpg",
+    image: "/avatars/men-88.jpg",
     name: "Dan F.",
     role: "Sales Manager",
   },
   {
     text: "Modulul de email marketing cu AI mi-a crescut rata de deschidere cu 34%. Rezultate reale.",
-    image: "https://randomuser.me/api/portraits/women/23.jpg",
+    image: "/avatars/women-23.jpg",
     name: "Laura V.",
     role: "E-commerce Owner",
   },
   {
     text: "Platforma e bine structurată și explicațiile sunt clare. Exact ce lipsea pe piața românească.",
-    image: "https://randomuser.me/api/portraits/men/61.jpg",
+    image: "/avatars/men-61.jpg",
     name: "Bogdan C.",
     role: "Product Manager",
   },
@@ -1111,6 +1111,10 @@ export default function App() {
                 <img src="/logo.png" alt="Edu-AI" style={{ height: 24, width: "auto", opacity: 0.35, filter: "grayscale(1)" }} />
               </div>
               <span style={{ fontSize: 13, color: "var(--muted)" }}>© 2026 Edu-AI. Toate drepturile rezervate.</span>
+              <div style={{ display: "flex", gap: 20 }}>
+                <a href="/politica-confidentialitate" style={{ fontSize: 13, color: "var(--muted)", textDecoration: "none" }}>Politică de Confidențialitate</a>
+                <a href="/termeni-si-conditii" style={{ fontSize: 13, color: "var(--muted)", textDecoration: "none" }}>Termeni și Condiții</a>
+              </div>
             </div>
           </div>
         </footer>
