@@ -8,13 +8,40 @@ import { SegmentationModal } from "@/components/ui/segmentation-modal";
 function SuccessContent() {
   const searchParams = useSearchParams();
   const email = searchParams?.get("email") ?? "";
+  const sessionId = searchParams?.get("session_id") ?? "";
   const [modalOpen, setModalOpen] = useState(false);
+  const [verified, setVerified] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // Open segmentation modal after a short delay so user sees the success screen first
+    if (!sessionId) { setVerified(false); return; }
+    fetch(`/api/checkout/verify?session_id=${sessionId}`)
+      .then(r => r.json())
+      .then(data => setVerified(data.valid === true))
+      .catch(() => setVerified(false));
+  }, [sessionId]);
+
+  useEffect(() => {
+    if (verified !== true) return;
     const t = setTimeout(() => setModalOpen(true), 1200);
     return () => clearTimeout(t);
-  }, []);
+  }, [verified]);
+
+  if (verified === false) {
+    return (
+      <div style={{ minHeight: "100vh", background: "#0d0d12", color: "#fff", fontFamily: "Inter, -apple-system, sans-serif", display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
+        <div style={{ textAlign: "center", maxWidth: 480 }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>⚠️</div>
+          <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 12 }}>Sesiune invalidă</h1>
+          <p style={{ color: "#b0b0c8", marginBottom: 24 }}>Nu am putut confirma plata ta. Dacă ai fost taxat, contactează-ne la <a href="mailto:hello@edu-ai.ro" style={{ color: "#a78bfa" }}>hello@edu-ai.ro</a>.</p>
+          <Link href="/" style={{ padding: "12px 24px", borderRadius: 10, background: "linear-gradient(135deg, #6c63ff, #a78bfa)", color: "#fff", fontWeight: 700, textDecoration: "none" }}>Înapoi acasă</Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (verified === null) {
+    return <div style={{ minHeight: "100vh", background: "#0d0d12" }} />;
+  }
 
   return (
     <div style={{ minHeight: "100vh", background: "#0d0d12", color: "#ffffff", fontFamily: "Inter, -apple-system, sans-serif", display: "flex", flexDirection: "column" }}>

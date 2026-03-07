@@ -26,3 +26,21 @@ CREATE POLICY "Allow public insert" ON waitlist_cursuri
 
 CREATE POLICY "Allow authenticated read" ON waitlist_cursuri
   FOR SELECT USING (auth.role() = 'authenticated');
+
+-- ─── Subscriptions table (Stripe sync) ────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS subscriptions (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  email TEXT NOT NULL UNIQUE,
+  stripe_subscription_id TEXT,
+  stripe_session_id TEXT,
+  plan TEXT,
+  status TEXT DEFAULT 'trialing',
+  cohort TEXT DEFAULT 'presale-2026',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE subscriptions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow service role all" ON subscriptions
+  USING (true) WITH CHECK (true);
