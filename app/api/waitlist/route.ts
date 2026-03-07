@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY ?? "");
+}
 
 function waitlistEmailHtml(nume: string | null): string {
   const prenume = nume ? `, ${nume}` : "";
@@ -142,7 +144,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Trimite email de confirmare (fire & forget — nu blocăm răspunsul)
-    resend.emails.send({
+    getResend().emails.send({
       from: "Edu-AI <no-reply@edu-ai.ro>",
       to: email.trim().toLowerCase(),
       subject: "Ești pe lista Edu-AI 🎉 — prețul tău e blocat",

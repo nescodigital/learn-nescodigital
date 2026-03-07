@@ -4,6 +4,7 @@ import "./globals.css";
 import { CookieBanner } from "@/components/ui/cookie-banner";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://edu-ai.ro"),
   title: "Edu-AI: Cursuri AI practice pentru business-ul tău",
   description: "Cursuri video 100% în română despre AI, automatizări și marketing digital. Aplici din prima săptămână. Certificat la final.",
   openGraph: {
